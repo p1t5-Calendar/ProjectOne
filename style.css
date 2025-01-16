@@ -1,0 +1,107 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #838383;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 1px;
+    background-color: #000000;
+}
+
+.day-name {
+    background-color: #e9ecef;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid #dee2e6;
+}
+
+.date {
+    background-color: #ffffff;
+    min-height: 120px;
+    border: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.date.inactive {
+    background-color: #f8f9fa;
+    color: #adb5bd;
+}
+
+.date.active .tasks {
+    overflow-y: auto;
+    max-height: 80px;
+}
+
+.date.current-day {
+    border: 2px solid #0d6efd;
+    background-color: #e3f2fd;
+}
+
+.task-item {
+    font-size: 0.8rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-item.urgent {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.task-item.non-urgent {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.task-item.completed {
+    background-color: #d4edda;
+    color: #155724;
+    text-decoration: line-through;
+}
+
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    margin: 10% auto;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
