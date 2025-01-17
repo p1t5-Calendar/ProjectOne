@@ -1,22 +1,104 @@
+:root {
+    --Lightbg: rgb(175, 175, 175);
+    --lighttxt: #000;
+    --darkbg:  #141414;
+    --darktxt: rgb(238, 231, 222);
+    --darkinactive: #2c2929;
+    --darkactive:rgb(8, 36, 247);
+    --darktask: rgb(34, 0, 34);
+  }
+*{
+    margin: 4px;
+}
+#darkb{
+    border: solid 2.5px black;
+    background-color: rgb(38, 51, 155);
+}
+#darkb :hover{
+    box-shadow: 2px 2px 5px black;
+
+}
+/* dark mode */
+.dark-mode{
+    background-color: var(--darkbg); 
+    color: var(--darktxt);   
+    h1, h5{
+        color: var(--darktxt);   
+    }
+    .calendar-grid{
+        background-color: var(--darkbg);
+    }
+  /* .container {
+        background-color: ;
+    } */
+    .custom-modal-content{
+        background-color: var(--darkbg);
+        color: var(--darktxt);
+    }
+    .date {
+        background-color: var(--darkbg);
+    }
+    .date.inactive{
+        background-color: var(--darkinactive);
+    }
+    .date.current-day {
+        border: 2px solid white;
+        background-color:var(--darkactive);
+    }
+    .container .btn{
+        background-color: var(--darktask);
+       border: 1px solid pink; ;
+    }
+    form .btn{
+        background-color: var(--darktask);
+    }
+    #viewDropdown{
+        background-color: var(--darkinactive);
+    }
+    .dropdown-item{
+        color: var(--darktxt);
+    }
+    .dropdown-item:hover{
+        background-color: var(--Lightbg);
+        color: var(--darktask);
+    }
+} 
+
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #838383;
-    color: #343a40;
+    background-color: var(--Lightbg);
+    color: var(--lighttxt);
     margin: 0;
     padding: 0;
+}
+
+h1, h5 {
+    margin: 0;
+}
+
+h1 {
+    color: var(--lighttxt);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .container {
     max-width: 1200px;
     margin: auto;
+    padding: 20px;
 }
 
+/* Calendar Grid */
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); 
+    grid-template-columns: repeat(7, 1fr);
     gap: 1px;
-    background-color: #000000;
+    background-color: #dee2e6;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .day-name {
@@ -25,46 +107,59 @@ body {
     padding: 10px;
     font-weight: bold;
     border: 1px solid #dee2e6;
+    box-sizing: border-box;
 }
 
 .date {
-    background-color: #ffffff;
-    min-height: 120px;
+    background-color: var(--Lightbg);
+    min-height: 100px;
     border: 1px solid #dee2e6;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 5px;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .date.inactive {
     background-color: #f8f9fa;
     color: #adb5bd;
+    cursor: not-allowed;
 }
 
-.date.active .tasks {
+.date.active {
+    cursor: pointer;
+}
+
+.date .tasks {
+    margin-top: 5px;
     overflow-y: auto;
-    max-height: 80px;
+    max-height: 70px;
 }
 
 .date.current-day {
     border: 2px solid #0d6efd;
-    background-color: #e3f2fd;
+    background-color: white;
+    color: var(--lighttxt);
 }
 
+Task Styles
 .task-item {
-    font-size: 0.8rem;
-    padding: 2px 4px;
-    border-radius: 4px;
-    margin-bottom: 2px;
+    margin: 5px 0;
+    padding: 5px 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    cursor: pointer;
 }
 
 .task-item.urgent {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: rgb(243, 191, 191);   
+    color: red;
 }
 
 .task-item.non-urgent {
@@ -78,6 +173,19 @@ body {
     text-decoration: line-through;
 }
 
+.task-item button.delete-task {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.task-item button.delete-task:hover {
+    color: #b02a37;
+}
+
+/* Modal Styles */
 .custom-modal {
     display: none;
     position: fixed;
@@ -89,19 +197,99 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.custom-modal-content {
-    background-color: #fff;
+.custom-modal-content{
+    background-color: #ffffff;
+    margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
-    margin: 10% auto;
+    max-width: 400px;
+    width: 90%;
     position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .close-button {
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 20px;
+    font-size: 1.5rem;
+    color: #6c757d;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+/* Hamburger Menu */
+.hamburger-menu {
+    position: relative;
+}
+
+#hamburgerButton {
+    font-size: 1.5rem;
+    background: none;
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+    border-radius: 5px;
+    padding: 5px 5px;
     cursor: pointer;
 }
+
+#hamburgerButton:hover {
+    background-color: #e3f2fd;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu .dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.dropdown-menu .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+.close-button:hover {
+ }
+
+.custom-modal h5 
+
+
+/* Buttons */
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: repeat(1, minmax(40px, 1fr));
+    }
+}
+
+
+/* TODO'S:
+
+/*IMPROVE RESPONSIVE DESIGN FOR SMALLER SCREENS
+
+/*ADD HOVER EFFECTS FOR TASK ITEMS AND CALENDAR CELLS
+
+/*CREATE A COMPLETE color SCHEME FOR THE PAGE
