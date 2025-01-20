@@ -13,11 +13,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentDate = dayjs();
     let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
     let currentView = "month";
+    let icon = darkModeButton.querySelector("i")
 
     // Dark Mode Toggle
-    darkModeButton.addEventListener("click", () => {
+     darkModeButton.addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
-    });
+        if (document.body.classList.contains ("dark-mode")){
+            icon.classList.remove("bi-moon-stars-fill");
+            icon.classList.add("bi-brightness-high-fill");
+        }
+        else{
+            icon.classList.remove("bi-brightness-high-fill");
+            icon.classList.add("bi-moon-stars-fill");
+        }});
+
 
     // Save Tasks
     function saveTasks() {
