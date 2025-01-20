@@ -1,22 +1,21 @@
+* {
+    margin: 4px;
+  }
 :root {
     --Lightbg: rgb(175, 175, 175);
     --lighttxt: #000;
     --darkbg:  #141414;
     --darktxt: rgb(238, 231, 222);
     --darkinactive: #2c2929;
-    --darkactive:rgb(8, 36, 247);
+    --darkactive:#344d55;
     --darktask: rgb(34, 0, 34);
   }
-*{
-    margin: 4px;
-}
 #darkb{
     border: solid 2.5px black;
     background-color: rgb(38, 51, 155);
-}
-#darkb :hover{
-    box-shadow: 2px 2px 5px black;
-
+    box-shadow: 4px 6px 8px black;
+    float: right;
+    margin-right: 20px;
 }
 /* dark mode */
 .dark-mode{
@@ -25,12 +24,15 @@
     h1, h5{
         color: var(--darktxt);   
     }
+    #darkb{
+        border: solid 2.5px whitesmoke;
+        background-color: var(--Lightbg);
+        color: var(--lighttxt);
+        box-shadow: 2px 3px 8px rgb(218, 213, 213);
+    }
     .calendar-grid{
         background-color: var(--darkbg);
     }
-  /* .container {
-        background-color: ;
-    } */
     .custom-modal-content{
         background-color: var(--darkbg);
         color: var(--darktxt);
@@ -38,19 +40,109 @@
     .date {
         background-color: var(--darkbg);
     }
+    .date.active:hover {
+        background-color: #6e6868;
+    }
     .date.inactive{
         background-color: var(--darkinactive);
     }
     .date.current-day {
         border: 2px solid white;
         background-color:var(--darkactive);
+        color: white;
+    }
+    .date.current-day:hover{
+        background-color: #0b4150;
+    }
+    .task-item{
+        border: 1px solid #000000;
+    }
+    .task-item.urgent {
+        background-color: rgb(255, 0, 0);   
+        color:  rgb(255, 149, 149);
+    }
+    .task-item.urgent:hover {
+        background-color: rgb(255, 149, 149);   
+        color:rgb(255, 0, 0);
+    }
+    .date.current-day .task-item.urgent{
+        background-color: rgb(161, 92, 92);   
+        color: rgb(107, 12, 12);
+    }
+    .date.current-day .task-item.urgent:hover{
+        background-color:rgb(107, 12, 12);   
+        color: rgb(161, 92, 92);
+    }
+    
+    .task-item.non-urgent {
+        background-color:rgb(131, 131, 0);
+        color:yellow;
+    }
+    .task-item.non-urgent:hover {
+        background-color:yellow; 
+        color:rgb(131, 131, 0);
+    }
+    .date.current-day .task-item.non-urgent{
+        background-color: rgb(185, 185, 0);
+        color: rgb(61, 61, 39);
+    }
+    .date.current-day .task-item.non-urgent:hover {
+        background-color: rgb(61, 61, 39);
+        color: rgb(185, 185, 0);
+    }
+    
+    .task-item.completed {
+        background-color:  #155724;
+        color: #7eca90;
+        text-decoration: line-through;
+    }
+    .task-item.completed:hover {
+        background-color: #7eca90;
+        color: #155724;
+        text-decoration: line-through;
+    }
+    .date.current-day .task-item.completed {
+        background-color:#094b18;
+        color:#94ffad;
+        text-decoration: line-through;
+    }
+    .date.current-day .task-item.completed:hover {
+        background-color: #06290e;
+        color: #7eca90;
+        text-decoration: line-through;
+    }
+
+    .task-item button.delete-task {
+        background: none;
+        border: none;
+        color: #dc3545;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    
+    .task-item button.delete-task:hover {
+        color: red;
     }
     .container .btn{
         background-color: var(--darktask);
-       border: 1px solid pink; ;
+        border: 1px solid pink;
+        color:var(--darktxt);
+    }
+    .container .btn:hover{ 
+        background-color: var(--Lightbg);
+        color: var(--darktask)
     }
     form .btn{
         background-color: var(--darktask);
+    }
+    #hamburgerButton{
+        border: 1px solid pink;
+        color: var(--darktxt); 
+        background-color: var(--darktask);  
+    }
+    #hamburgerButton:hover {
+        background-color: var(--Lightbg);
+        color: var(--darktask)
     }
     #viewDropdown{
         background-color: var(--darkinactive);
@@ -71,6 +163,7 @@ body {
     color: var(--lighttxt);
     margin: 0;
     padding: 0;
+    transition: background-color ease-in .6s;
 }
 
 h1, h5 {
@@ -89,7 +182,15 @@ h1 {
     margin: auto;
     padding: 20px;
 }
-
+.container .btn{
+    background-color:var(--lighttxt);
+    border: 1px solid #0066ff;
+    color: var(--Lightbg);
+}
+.container .btn:hover{ 
+    background-color: var(--darkinactive);
+    color: var(--darktxt)
+}
 /* Calendar Grid */
 .calendar-grid {
     display: grid;
@@ -131,6 +232,10 @@ h1 {
 .date.active {
     cursor: pointer;
 }
+.date.active:hover {
+    cursor: pointer;
+    background-color: #575e69;
+}
 
 .date .tasks {
     margin-top: 5px;
@@ -139,12 +244,14 @@ h1 {
 }
 
 .date.current-day {
-    border: 2px solid #0d6efd;
-    background-color: white;
+    border: 2px solid black;
+    background-color: rgb(117, 177, 176);
     color: var(--lighttxt);
 }
-
-Task Styles
+.date.current-day:hover {
+    background: rgb(40, 155, 175);
+}
+/* Task Styles */
 .task-item {
     margin: 5px 0;
     padding: 5px 10px;
@@ -157,19 +264,60 @@ Task Styles
     cursor: pointer;
 }
 
+.date.current-day .task-item.urgent{
+    background-color: rgb(252, 146, 146);   
+    color: rgb(163, 19, 19);
+}
+.date.current-day .task-item.urgent:hover{
+    background-color:rgb(163, 19, 19);   
+    color: rgb(252, 146, 146);
+}
+.date.current-day .task-item.completed {
+    background-color: #94ffad;
+    color: #094b18;
+    text-decoration: line-through;
+}
+.date.current-day .task-item.completed:hover {
+    background-color:#094b18;
+    color:#94ffad;
+    text-decoration: line-through;
+}
+
+.date.current-day .task-item.non-urgent {
+    background-color: rgb(255, 255, 161);
+    color: rgb(90, 90, 27);
+}
+.date.current-day .task-item.non-urgent:hover {
+    background-color:rgb(90, 90, 27); 
+    color: rgb(255, 255, 161);
+}
+
 .task-item.urgent {
     background-color: rgb(243, 191, 191);   
-    color: red;
+    color: rgb(255, 33, 33);
+}
+.task-item.urgent:hover {
+    background-color: rgb(255, 33, 33);   
+    color:rgb(243, 191, 191);
 }
 
 .task-item.non-urgent {
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: yellow;
+    color: rgb(87, 87, 54);
+}
+.task-item.non-urgent:hover {
+    background-color: rgb(87, 87, 54);
+    color: yellow;
 }
 
 .task-item.completed {
-    background-color: #d4edda;
+    background-color:  #7eca90;
     color: #155724;
+    text-decoration: line-through;
+}
+.task-item.completed:hover {
+    background-color: #155724;
+    color: #7eca90;
     text-decoration: line-through;
 }
 
@@ -182,7 +330,7 @@ Task Styles
 }
 
 .task-item button.delete-task:hover {
-    color: #b02a37;
+    color: red;
 }
 
 /* Modal Styles */
@@ -207,7 +355,6 @@ Task Styles
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 .close-button {
     position: absolute;
     top: 10px;
@@ -218,6 +365,7 @@ Task Styles
     border: none;
     background: none;
 }
+
 /* Hamburger Menu */
 .hamburger-menu {
     position: relative;
@@ -225,16 +373,16 @@ Task Styles
 
 #hamburgerButton {
     font-size: 1.5rem;
-    background: none;
+    background: var(--lighttxt);
     border: 1px solid #0d6efd;
-    color: #0d6efd;
+    color: var(--Lightbg);
     border-radius: 5px;
     padding: 5px 5px;
     cursor: pointer;
 }
-
 #hamburgerButton:hover {
-    background-color: #e3f2fd;
+    background-color: var(--darkbg);
+    color: var(--darktxt)
 }
 
 .dropdown-menu {
@@ -248,7 +396,12 @@ Task Styles
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
+#viewDropdown{
+    background-color: var(--Lightbg);
+}
+.dropdown-item{
+    color: var(--lighttxt);
+}
 .dropdown-menu .dropdown-item {
     padding: 10px;
     cursor: pointer;
@@ -262,8 +415,6 @@ Task Styles
 .dropdown-menu .dropdown-item:hover {
     background-color: #f8f9fa;
 }
-.close-button:hover {
- }
 
 .custom-modal h5 
 
@@ -291,5 +442,7 @@ button:disabled {
 /*IMPROVE RESPONSIVE DESIGN FOR SMALLER SCREENS
 
 /*ADD HOVER EFFECTS FOR TASK ITEMS AND CALENDAR CELLS
+Done
 
 /*CREATE A COMPLETE color SCHEME FOR THE PAGE
+done
