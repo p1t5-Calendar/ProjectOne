@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentDate = dayjs();
     let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
-    let currentView = "month";
+    let currentView = ("month", "week", "day")
     let icon = darkModeButton.querySelector("i")
 
     // Dark Mode Toggle
@@ -58,10 +58,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const startDayOfWeek = startOfMonth.day();
 
         if (currentView === "month") {
+            document.documentElement.style.setProperty('--date-cell-height', '100px');
             renderMonthView(date, startOfMonth, daysInMonth, startDayOfWeek);
         } else if (currentView === "week") {
+            document.documentElement.style.setProperty('--date-cell-height', '300px');
             renderWeekView(date);
         } else if (currentView === "day") {
+            document.documentElement.style.setProperty('--date-cell-height', '300px');
             renderDayView(date);
         }
 
@@ -102,22 +105,40 @@ document.addEventListener("DOMContentLoaded", () => {
     // Render Day View
     function renderDayView(date) {
         const formattedDate = date.format("YYYY-MM-DD");
-        addDate(date.date(), date.isSame(dayjs(), "day") ? "current-day active" : "active", formattedDate);
-        renderTasks(formattedDate);
+        calendarGrid.innerHTML = '';
+        const dateElement = document.createElement("div");
+        dateElement.className = `date date-cell day-view active`;
+    dateElement.innerHTML = `
+        <div>${date.date()}</div>
+        <div class="tasks" id="${formattedDate}-tasks"></div>
+        <button class="btn btn-success btn-sm add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>
+    `;
+
+    calendarGrid.appendChild(dateElement);
+    renderTasks(formattedDate);
     }
+
+// Get today's date using dayjs
+function goToToday() {
+    const today = dayjs(); 
+    currentViewDate = today; 
+    renderCalendar(currentViewDate); 
+}
+
+document.getElementById('todayButton').addEventListener('click', goToToday);
 
     // Add Date to Calendar
     function addDate(day, classes, formattedDate) {
         const dateElement = document.createElement("div");
-        dateElement.className = `date ${classes}`;
+        dateElement.className = `date date-cell ${classes}`;
         dateElement.innerHTML = `
             <div>${day}</div>
-            <div class="tasks" id="${formattedDate}-tasks"></div>
-            ${formattedDate ? `<button class="btn btn-success btn-sm mt-2" onclick="openModal('${formattedDate}')">Add Task</button>` : ""}
-        `;
-        calendarGrid.appendChild(dateElement);
-    }
-
+             <div class="tasks" id="${formattedDate}-tasks"></div>
+        ${formattedDate ? `<button class="btn btn-success btn-sm add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>` : ""}
+    `;
+            calendarGrid.appendChild(dateElement);
+        }
+         
     // Render Tasks
     function renderTasks(date) {
         const taskContainer = document.getElementById(`${date}-tasks`);
@@ -191,6 +212,9 @@ document.addEventListener("DOMContentLoaded", () => {
         currentDate = currentDate.add(1, "month");
         renderCalendar(currentDate);
     });
+
+   
+
 
     loadTasks();
     renderCalendar(currentDate);

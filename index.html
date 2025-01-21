@@ -15,47 +15,49 @@
 </head>
 <body>
     <header>
-        <button id="darkb" class="dark-mode" style="font-size:23px" click="darkMode()"><i class="bi bi-moon-stars-fill"></i></button>
+        <button id="darkb" class="dark-mode" style="font-size:23px" click="darkMode()" aria-label="Toggle dark mode"><i class="bi bi-moon-stars-fill"></i></button>
    </header>
        
        <div class="container py-4">
         <header class="mb-4 text-center">
-            <h1 class="fw-bold">Group 5's Calendar</h1>
+            <h1 class="fw-bold" aria-label="Group 5's Calendar">Group 5's Calendar</h1>
         </header>
     
         <div class="d-flex justify-content-between align-items-center mb-4">
-                <button id="prevMonth" class="btn btn-outline-primary">◀</button>
+                <button id="prevMonth" class="btn btn-outline-primary" aria-label="Previous month">◀</button>
                 <h1 id="monthYear" class="m-0"></h1>
-                <button id="nextMonth" class="btn btn-outline-primary">▶</button>
+                <button id="nextMonth" class="btn btn-outline-primary" aria-label=" month">▶</button>
+                <button id="todayButton" class="btn btn-outline-success">Today</button>
                 <div class="hamburger-menu">
-                    <button id="hamburgerButton" class="btn btn-outline-secondary">☰ View</button>
-                    <div id="viewDropdown" class="dropdown-menu">
-                        <div class="dropdown-item" onclick="changeView('month')">Month View</div>
-                        <div class="dropdown-item" onclick="changeView('week')">Week View</div>
-                        <div class="dropdown-item" onclick="changeView('day')">Day View</div>
+                    <button id="hamburgerButton" class="btn btn-outline-secondary" aria-label="View options">☰ View</button>
+                    <div id="viewDropdown" class="dropdown-menu" aria-label="View options dropdown">
+                        <div class="dropdown-item" onclick="changeView('month')" aria-label="Month view">Month View</div>
+                        <div class="dropdown-item" onclick="changeView('week')" aria-label="Week view">Week View</div>
+                        <div class="dropdown-item" onclick="changeView('day')" aria-label="Day view">Day View</div>
                     </div>
                 </div>
         </div>
     
-        <div class="calendar-grid" id="calendarGrid">
-            <div class="day-name">Sun</div>
-            <div class="day-name">Mon</div>
-            <div class="day-name">Tue</div>
-            <div class="day-name">Wed</div>
-            <div class="day-name">Thu</div>
-            <div class="day-name">Fri</div>
-            <div class="day-name">Sat</div>
+        <div class="calendar-grid" id="calendarGrid"> 
+            <div class="day-name" aria-label="Sunday">Sun</div>
+            <div class="day-name" aria-label="Monday">Mon</div>
+            <div class="day-name" aria-label="Tuesday">Tue</div>
+            <div class="day-name" aria-label="Wednesday">Wed</div>
+            <div class="day-name" aria-label="Thursday">Thu</div>
+            <div class="day-name" aria-label="Friday">Fri</div>
+            <div class="day-name" aria-label="Saturday">Sat</div>
         </div>
     </div>
+
     <!-- WHAT THIS DOES: THIS IS OUR TASK BOX -->
     
-    <!-- TO DO: ADD ARIA TAGS FOR ACCESSIBILITY -->
+    <!-- TO DO: ADD ARIA TAGS FOR ACCESSIBILITY Done -->
     
-    <div id="taskModal" class="custom-modal dark-mode">
+    <div id="taskModal" class="custom-modal dark-mode" aria-hidden="true">
         <div class="custom-modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <h5>Add Task</h5>
-            <form id="taskForm">
+            <span class="close-button" onclick="closeModal()" aria-label="Close">&times;</span>
+            <h5 id="taskFormHeading">Add Task</h5>
+            <form id="taskForm" aria-labelledby="taskFormHeading">
                 <div class="mb-3">
                     <label for="taskInput" class="form-label">Task</label>
                     <input type="text" aria-label="Task" class="form-control" id="taskInput" required>
@@ -69,7 +71,7 @@
                         <input type="radio" aria-label="Non-Urgent" name="urgency" value="non-urgent"> Non-Urgent
                     </label>
                 </div>
-                <input type="hidden" aria-label="hidden" id="selectedDate">
+                <input type="hidden" id="selectedDate">
                 <button aria-label="Add Task" type="submit" class="btn btn-primary">Add Task</button>
             </form>
         </div>
@@ -78,3 +80,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
