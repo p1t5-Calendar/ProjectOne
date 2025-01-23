@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.documentElement.style.setProperty('--date-cell-height', '100px');
             renderMonthView(date, startOfMonth, daysInMonth, startDayOfWeek);
         } else if (currentView === "week") {
-            document.documentElement.style.setProperty('--date-cell-height', '300px');
             renderWeekView(date);
         } else if (currentView === "day") {
             document.documentElement.style.setProperty('--date-cell-height', '300px');
