@@ -1,5 +1,7 @@
 * {
     margin: 4px;
+    padding: 0;
+    box-sizing: border-box;
   }
 :root {
     --Lightbg: rgb(175, 175, 175);
@@ -18,6 +20,12 @@
     margin-right: 20px;
 }
 /* dark mode */
+
+/* added to make dark mode transition smoother */
+body {
+    transition: background-color ease-in-out 0.6s, color ease-in-out 0.6s; 
+ }
+ 
 .dark-mode{
     background-color: var(--darkbg); 
     color: var(--darktxt);   
@@ -32,6 +40,12 @@
     }
     .calendar-grid{
         background-color: var(--darkbg);
+    }
+
+    /* added transition for smoother animation */
+    .custom-modal {
+       background-color: rgba(0, 0, 0, 0.89);
+       transition: opacity ease-in-out 0.4s;
     }
     .custom-modal-content{
         background-color: var(--darkbg);
@@ -55,11 +69,15 @@
         background-color: #0b4150;
     }
     .task-item{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         border: 1px solid #000000;
     }
     .task-item.urgent {
         background-color: rgb(255, 0, 0);   
         color:  rgb(255, 149, 149);
+        
     }
     .task-item.urgent:hover {
         background-color: rgb(255, 149, 149);   
@@ -95,21 +113,25 @@
         background-color:  #155724;
         color: #7eca90;
         text-decoration: line-through;
+       
     }
     .task-item.completed:hover {
         background-color: #7eca90;
         color: #155724;
         text-decoration: line-through;
+       
     }
     .date.current-day .task-item.completed {
         background-color:#094b18;
         color:#94ffad;
         text-decoration: line-through;
+        
     }
     .date.current-day .task-item.completed:hover {
         background-color: #06290e;
         color: #7eca90;
         text-decoration: line-through;
+        
     }
 
     .task-item button.delete-task {
@@ -144,8 +166,12 @@
         background-color: var(--Lightbg);
         color: var(--darktask)
     }
+
+    /* Added additional styling for better darkmode transitions  */
     #viewDropdown{
         background-color: var(--darkinactive);
+        border: 1px solid var(--lighttxt);
+        transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
     }
     .dropdown-item{
         color: var(--darktxt);
@@ -166,6 +192,7 @@ body {
     transition: background-color ease-in .6s;
 }
 
+
 h1, h5 {
     margin: 0;
 }
@@ -179,9 +206,15 @@ h1 {
 
 .container {
     max-width: 1200px;
-    margin: auto;
-    padding: 10px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px); /* Adjus height to fill the screen */
 }
+
+
+
 .container .btn{
     background-color:var(--lighttxt);
     border: 1px solid #0066ff;
@@ -196,12 +229,15 @@ h1 {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-auto-rows: var(--date-cell-height, 100px);
+    /* flex-grow: 1; Make the calendar grid fill available space instead of delete columns */
     gap: 1px;
     background-color: #dee2e6;
     border: 1px solid #dee2e6;
     border-radius: 8px;
     overflow: hidden;
 }
+
+/* calendar days */
 .date-cell {
     border: 1px solid #ccc;
     display: flex;
@@ -210,12 +246,12 @@ h1 {
     position: relative;
 }
 .date-cell.day-view {
-    grid-template-columns: span 7;
-    width: 100%;
+    grid-column: span 7;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 .day-name {
     background-color: #e9ecef;
@@ -224,6 +260,7 @@ h1 {
     font-weight: bold;
     border: 1px solid #dee2e6;
     box-sizing: border-box;
+    grid-column: span 1;
 }
 
 .date {
@@ -252,12 +289,6 @@ h1 {
     background-color: #575e69;
 }
 
-.date .tasks {
-    margin-top: 5px;
-    overflow-y: auto;
-    max-height: 70px;
-}
-
 .date.current-day {
     border: 2px solid black;
     background-color: rgb(117, 177, 176);
@@ -266,32 +297,48 @@ h1 {
 .date.current-day:hover {
     background: rgb(40, 155, 175);
 }
-/* task Button */
-.add-task-btn {
-    opacity: 0; 
-    transition: opacity 0.3s; 
-    width: 100%;
-}
-.date-cell:hover .add-task-btn {
-    opacity: 1;
-}
-
 /* Task Styles */
 .task-item {
     margin: 5px 0;
     padding: 5px 10px;
     border: 1px solid #dee2e6;
     border-radius: 5px;
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
     align-items: center;
     font-size: 0.85rem;
     cursor: pointer;
+} 
+
+.date .tasks {
+    margin-top: 5px;
+    width: 100%;
+    overflow: auto;
 }
-div .tasks{
+/* working on how the task look insid ethe calnedar */
+.task-text{
+    /* font-weight: bold; */
+    /* display:inline-block; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis;    */
+}
+
+/* task Button */
+.add-task-btn {
+    opacity: 0; 
+    transition: opacity 0.3s; 
     width: 100%;
 }
 
+/* Added enlarge on hover */
+.date-cell:hover .add-task-btn {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+
+/* current day tasks */
+/* urgent task button */
 .date.current-day .task-item.urgent{
     background-color: rgb(252, 146, 146);   
     color: rgb(163, 19, 19);
@@ -300,6 +347,8 @@ div .tasks{
     background-color:rgb(163, 19, 19);   
     color: rgb(252, 146, 146);
 }
+
+/*completed task */
 .date.current-day .task-item.completed {
     background-color: #94ffad;
     color: #094b18;
@@ -311,6 +360,7 @@ div .tasks{
     text-decoration: line-through;
 }
 
+/* non urget tasks */
 .date.current-day .task-item.non-urgent {
     background-color: rgb(255, 255, 161);
     color: rgb(90, 90, 27);
@@ -320,6 +370,8 @@ div .tasks{
     color: rgb(255, 255, 161);
 }
 
+/* all other day */
+/* urgent task */
 .task-item.urgent {
     background-color: rgb(243, 191, 191);   
     color: rgb(255, 33, 33);
@@ -329,6 +381,7 @@ div .tasks{
     color:rgb(243, 191, 191);
 }
 
+/* non urgent tasks */
 .task-item.non-urgent {
     background-color: yellow;
     color: rgb(87, 87, 54);
@@ -338,6 +391,7 @@ div .tasks{
     color: yellow;
 }
 
+/* completed tasks */
 .task-item.completed {
     background-color:  #7eca90;
     color: #155724;
@@ -349,6 +403,7 @@ div .tasks{
     text-decoration: line-through;
 }
 
+/* task item delete button */
 .task-item button.delete-task {
     background: none;
     border: none;
@@ -356,7 +411,6 @@ div .tasks{
     font-size: 1rem;
     cursor: pointer;
 }
-
 .task-item button.delete-task:hover {
     color: red;
 }
@@ -370,18 +424,19 @@ div .tasks{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(173, 173, 173, 0.63);
 }
 
 .custom-modal-content{
-    background-color: #ffffff;
+    background-color: var(--Lightbg);
+    color: var(--lighttxt);
     margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
     max-width: 400px;
     width: 90%;
     position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(80, 55, 55, 0.1);
 }
 .close-button {
     position: absolute;
@@ -444,9 +499,6 @@ div .tasks{
     background-color: #f8f9fa;
 }
 
-.custom-modal h5 
-
-
 /* Buttons */
 button {
     cursor: pointer;
@@ -457,35 +509,43 @@ button:disabled {
     opacity: 0.6;
 }
 
+/* Calendar Auto Sizing */
+.calendar-grid.month-view {
+    grid-template-columns: repeat(7, 1fr);
+    transform: scale(1);
+}
 
-/*Small devices*/
-@media (min-width: 576px) {
-    .calendar-grid {
-        grid-template-columns: repeat(1, minmax(40px, 1fr));
-    }
-} 
+.calendar-grid.week-view {
+    grid-template-columns: repeat(7, 1fr);
+    transform: scale(1);
+}
+.calendar-grid.day-view {
+    grid-template-columns: repeat(7, 1fr);
+    transform: scale(1);
+    /* height: 100%; */
+}
+/* 
+/* .date-cell.day-view {
+    grid-column: span 7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+} */
 
-/*Medium devices*/
-@media (min-width: 768px) {
+
+@media (max-width: 480px) {
     .calendar-grid {
-        grid-template-columns: repeat(2, minmax(40px, 1fr));
+        grid-template-columns: repeat(1, minmax(40px, 1fr)); /* Adjusts to single column */
     }
 }
 
-/*Large devices*/
-@media (min-width: 992px) {
+@media (max-width: 768px) {
     .calendar-grid {
-        grid-template-columns: repeat(3, minmax(40px, 1fr));
+        grid-template-columns: repeat(2, minmax(40px, 1fr)); /* Adjusts to two columns */
     }
 }
-
-/*Extra large devices*/
-@media (min-width: 1200px) {
-    .calendar-grid {
-        grid-template-columns: repeat(4, minmax(40px, 1fr));
-    }
-}
-
 
 
 /* TODO'S:

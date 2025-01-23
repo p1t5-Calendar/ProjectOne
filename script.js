@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentDate = dayjs();
     let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
-    let currentView = ("month", "week", "day")
+    let currentView = "month";
     let icon = darkModeButton.querySelector("i")
 
     // Dark Mode Toggle
@@ -46,24 +46,67 @@ document.addEventListener("DOMContentLoaded", () => {
     // Change View Function
     window.changeView = (view) => {
         currentView = view;
+        updateCalendarView(view);
         renderCalendar(currentDate);
         viewDropdown.style.display = "none";
     };
+// Input Validation
+taskForm.addEventListener("submitt", (e) =>{
+    e.preventDefault();
+    const date = selectedDateInput.value;
+    const taskText = document.getElementById("taskInput").value.trim();
+    const urgency = document.querySelector('input[name="urgency"]checked');
+
+    if (!taskText || !urgency) {
+        alert ("Please provide both the task text and urgency");
+        return;
+    }
+
+    if (!tasks[date]) tasks[date] = [];
+    tasks[date].push({ text: taskText, urgency: urgency.value, completed: false});
+    saveTasks();
+    renderTasks(date);
+    closeModal();
+})
+
+// Apply CSS Classes to Diff Views
+function updateCalendarView(view) {
+    calendarGrid.classList.remove("month-view", "week-view", "day-view");
+    if (view === "month") {
+        calendarGrid.classList.add("month-view");
+    } else if (view === "week") {
+        calendarGrid.classList.add("week-view");
+    } else if (view === "day") {
+        calendarGrid.classList.add("day-view");
+    }
+}
 
     // Render Calendar
+    
     function renderCalendar(date) {
-        calendarGrid.innerHTML = "";
+            calendarGrid.innerHTML = "";
+
+            const dayNames = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']; 
+            dayNames.forEach((day) => { const dayElement = document.createElement("div"); 
+                dayElement.className = "day-name"; 
+                dayElement.textContent = day; 
+                calendarGrid.appendChild(dayElement); 
+    });
+
         const startOfMonth = date.startOf("month");
         const daysInMonth = date.daysInMonth();
         const startDayOfWeek = startOfMonth.day();
-
+        
         if (currentView === "month") {
-            document.documentElement.style.setProperty('--date-cell-height', '100px');
             renderMonthView(date, startOfMonth, daysInMonth, startDayOfWeek);
+            document.documentElement.style.setProperty('--date-cell-height', '100px');
         } else if (currentView === "week") {
             renderWeekView(date);
+            document.documentElement.style.setProperty('--date-cell-height', '300px');
         } else if (currentView === "day") {
             document.documentElement.style.setProperty('--date-cell-height', '300px');
+            // document.dayElement.day.style.setProperty('height', '50px');
+
             renderDayView(date);
         }
 
@@ -103,14 +146,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render Day View
     function renderDayView(date) {
-        const formattedDate = date.format("YYYY-MM-DD");
         calendarGrid.innerHTML = '';
+
+        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const dayName = dayNames[date.day()];
+        const dayElement = document.createElement("div");
+        dayElement.className = "day-name";
+        dayElement.textContent = dayName;
+        calendarGrid.appendChild(dayElement);
+  
+        const formattedDate = date.format("YYYY-MM-DD");
         const dateElement = document.createElement("div");
         dateElement.className = `date date-cell day-view active`;
-    dateElement.innerHTML = `
-        <div>${date.date()}</div>
-        <div class="tasks" id="${formattedDate}-tasks"></div>
-        <button class="btn btn-success btn-sm add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>
+        dateElement.innerHTML = `
+            <div>${date.date()}</div>
+            <div class="tasks" id="${formattedDate}-tasks"></div>
+            <button class="btn btn-success btn-sm add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>
     `;
 
     calendarGrid.appendChild(dateElement);
@@ -120,8 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Get today's date using dayjs
 function goToToday() {
     const today = dayjs(); 
-    currentViewDate = today; 
-    renderCalendar(currentViewDate); 
+    currentDate = today; 
+    renderCalendar(currentDate); 
 }
 
 document.getElementById('todayButton').addEventListener('click', goToToday);
@@ -202,19 +253,31 @@ document.getElementById('todayButton').addEventListener('click', goToToday);
         closeModal();
     });
 
+    // Updated paging logic (pages between days and weeks)
     prevMonthButton.addEventListener("click", () => {
-        currentDate = currentDate.subtract(1, "month");
+        if (currentView === "month") {
+            currentDate = currentDate.subtract(1, "month");
+        } else if (currentView === "week") {
+            currentDate = currentDate.subtract(1, "week");
+        } else if (currentView === "day") {
+            currentDate = currentDate.subtract(1, "day");
+        }
         renderCalendar(currentDate);
     });
-
+    
     nextMonthButton.addEventListener("click", () => {
-        currentDate = currentDate.add(1, "month");
+        if (currentView === "month") {
+            currentDate = currentDate.add(1, "month");
+        } else if (currentView === "week") {
+            currentDate = currentDate.add(1, "week");
+        } else if (currentView === "day") {
+            currentDate = currentDate.add(1, "day");
+        }
         renderCalendar(currentDate);
     });
-
    
 
-
     loadTasks();
+    updateCalendarView(currentView);
     renderCalendar(currentDate);
 });
