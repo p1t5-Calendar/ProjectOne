@@ -1,196 +1,104 @@
+/* General Reset */
 * {
-    margin: 4px;
-  }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Root Variables for Theme */
 :root {
     --Lightbg: rgb(175, 175, 175);
     --lighttxt: #000;
-    --darkbg:  #141414;
+    --darkbg: #141414;
     --darktxt: rgb(238, 231, 222);
     --darkinactive: #2c2929;
-    --darkactive:#344d55;
+    --darkactive: #344d55;
     --darktask: rgb(34, 0, 34);
-  }
-#darkb{
+}
+
+/* Dark Mode Styling */
+.dark-mode {
+    background-color: var(--darkbg);
+    color: var(--darktxt);
+}
+
+.dark-mode #darkb {
+    border: solid 2.5px whitesmoke;
+    background-color: var(--Lightbg);
+    color: var(--lighttxt);
+    box-shadow: 2px 3px 8px rgb(218, 213, 213);
+}
+
+.dark-mode h1,
+.dark-mode h5 {
+    color: var(--darktxt);
+}
+
+.dark-mode .calendar-grid,
+.dark-mode .custom-modal-content,
+.dark-mode .date {
+    background-color: var(--darkbg);
+    color: var(--darktxt);
+}
+
+
+.dark-mode .date.current-day {
+    border-color: white;
+    background-color: var(--darkactive);
+    color: white;
+}
+
+.dark-mode .btn {
+    background-color: var(--darktask);
+    color: var(--darktxt);
+}
+
+.dark-mode .btn:hover {
+    background-color: var(--Lightbg);
+    color: var(--darktask);
+}
+
+/* Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--Lightbg);
+    color: var(--lighttxt);
+    transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
+}
+
+/* Font Smoothing */
+body {
+    -webkit-font-smoothing: antialiased; /* For Chrome, Edge, Safari */
+}
+
+/* Header Styling */
+header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+#darkb {
     border: solid 2.5px black;
     background-color: rgb(38, 51, 155);
     box-shadow: 4px 6px 8px black;
     float: right;
     margin-right: 20px;
-}
-/* dark mode */
-.dark-mode{
-    background-color: var(--darkbg); 
-    color: var(--darktxt);   
-    h1, h5{
-        color: var(--darktxt);   
-    }
-    #darkb{
-        border: solid 2.5px whitesmoke;
-        background-color: var(--Lightbg);
-        color: var(--lighttxt);
-        box-shadow: 2px 3px 8px rgb(218, 213, 213);
-    }
-    .calendar-grid{
-        background-color: var(--darkbg);
-    }
-    .custom-modal-content{
-        background-color: var(--darkbg);
-        color: var(--darktxt);
-    }
-    .date {
-        background-color: var(--darkbg);
-    }
-    .date.active:hover {
-        background-color: #6e6868;
-    }
-    .date.inactive{
-        background-color: var(--darkinactive);
-    }
-    .date.current-day {
-        border: 2px solid white;
-        background-color:var(--darkactive);
-        color: white;
-    }
-    .date.current-day:hover{
-        background-color: #0b4150;
-    }
-    .task-item{
-        border: 1px solid #000000;
-    }
-    .task-item.urgent {
-        background-color: rgb(255, 0, 0);   
-        color:  rgb(255, 149, 149);
-    }
-    .task-item.urgent:hover {
-        background-color: rgb(255, 149, 149);   
-        color:rgb(255, 0, 0);
-    }
-    .date.current-day .task-item.urgent{
-        background-color: rgb(161, 92, 92);   
-        color: rgb(107, 12, 12);
-    }
-    .date.current-day .task-item.urgent:hover{
-        background-color:rgb(107, 12, 12);   
-        color: rgb(161, 92, 92);
-    }
-    
-    .task-item.non-urgent {
-        background-color:rgb(131, 131, 0);
-        color:yellow;
-    }
-    .task-item.non-urgent:hover {
-        background-color:yellow; 
-        color:rgb(131, 131, 0);
-    }
-    .date.current-day .task-item.non-urgent{
-        background-color: rgb(185, 185, 0);
-        color: rgb(61, 61, 39);
-    }
-    .date.current-day .task-item.non-urgent:hover {
-        background-color: rgb(61, 61, 39);
-        color: rgb(185, 185, 0);
-    }
-    
-    .task-item.completed {
-        background-color:  #155724;
-        color: #7eca90;
-        text-decoration: line-through;
-    }
-    .task-item.completed:hover {
-        background-color: #7eca90;
-        color: #155724;
-        text-decoration: line-through;
-    }
-    .date.current-day .task-item.completed {
-        background-color:#094b18;
-        color:#94ffad;
-        text-decoration: line-through;
-    }
-    .date.current-day .task-item.completed:hover {
-        background-color: #06290e;
-        color: #7eca90;
-        text-decoration: line-through;
-    }
-
-    .task-item button.delete-task {
-        background: none;
-        border: none;
-        color: #dc3545;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-    
-    .task-item button.delete-task:hover {
-        color: red;
-    }
-    .container .btn{
-        background-color: var(--darktask);
-        border: 1px solid pink;
-        color:var(--darktxt);
-    }
-    .container .btn:hover{ 
-        background-color: var(--Lightbg);
-        color: var(--darktask)
-    }
-    form .btn{
-        background-color: var(--darktask);
-    }
-    #hamburgerButton{
-        border: 1px solid pink;
-        color: var(--darktxt); 
-        background-color: var(--darktask);  
-    }
-    #hamburgerButton:hover {
-        background-color: var(--Lightbg);
-        color: var(--darktask)
-    }
-    #viewDropdown{
-        background-color: var(--darkinactive);
-    }
-    .dropdown-item{
-        color: var(--darktxt);
-    }
-    .dropdown-item:hover{
-        background-color: var(--Lightbg);
-        color: var(--darktask);
-    }
-} 
-
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--Lightbg);
-    color: var(--lighttxt);
-    margin: 0;
-    padding: 0;
-    transition: background-color ease-in .6s;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-h1, h5 {
-    margin: 0;
-}
-
-h1 {
-    color: var(--lighttxt);
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
+/* Container */
 .container {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
 }
-.container .btn{
-    background-color:var(--lighttxt);
-    border: 1px solid #0066ff;
-    color: var(--Lightbg);
-}
-.container .btn:hover{ 
-    background-color: var(--darkinactive);
-    color: var(--darktxt)
-}
+
 /* Calendar Grid */
 .calendar-grid {
     display: grid;
@@ -199,7 +107,6 @@ h1 {
     background-color: #dee2e6;
     border: 1px solid #dee2e6;
     border-radius: 8px;
-    overflow: hidden;
 }
 
 .day-name {
@@ -208,10 +115,18 @@ h1 {
     padding: 10px;
     font-weight: bold;
     border: 1px solid #dee2e6;
-    box-sizing: border-box;
+    color: var(--lighttxt); 
+    transition: color 0.3s ease-in-out; 
 }
 
+.dark-mode .day-name {
+    color: rgb(200, 200, 200); 
+}
+
+/* Month View - Default */
+/* Default Date Styling */
 .date {
+    position: relative; 
     background-color: var(--Lightbg);
     min-height: 100px;
     border: 1px solid #dee2e6;
@@ -220,120 +135,85 @@ h1 {
     justify-content: space-between;
     padding: 5px;
     cursor: pointer;
-    box-sizing: border-box;
 }
 
-.date.inactive {
-    background-color: #f8f9fa;
-    color: #adb5bd;
-    cursor: not-allowed;
-}
-
-.date.active {
+.date .add-task-btn {
+    visibility: hidden; 
+    opacity: 0; 
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    width: 40px; 
+    height: 40px; 
+    background-color: #198754; 
+    color: white;
+    border: none;
+    border-radius: 50%; /* Makes the button circular */
+    font-size: 0.75rem; 
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1; /*makes button hover above cell */
     cursor: pointer;
-}
-.date.active:hover {
-    cursor: pointer;
-    background-color: #575e69;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-.date .tasks {
-    margin-top: 5px;
-    overflow-y: auto;
-    max-height: 70px;
+
+/* Show Add Task Button on Hover */
+.date:hover .add-task-btn {
+    visibility: visible; 
+    opacity: 1; 
+    transform: translate(-50%, -50%) scale(1.1); 
 }
 
+
+/* Current Day Highlight */
 .date.current-day {
     border: 2px solid black;
     background-color: rgb(117, 177, 176);
     color: var(--lighttxt);
 }
-.date.current-day:hover {
-    background: rgb(40, 155, 175);
+
+.date.inactive {
+    background-color: #e9ecef; 
+    color: #6c757d; 
+    pointer-events: none; 
+    opacity: 0.5; 
 }
+
 /* Task Styles */
 .task-item {
     margin: 5px 0;
     padding: 5px 10px;
     border: 1px solid #dee2e6;
     border-radius: 5px;
+    font-size: 0.85rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    cursor: pointer;
-}
-
-.date.current-day .task-item.urgent{
-    background-color: rgb(252, 146, 146);   
-    color: rgb(163, 19, 19);
-}
-.date.current-day .task-item.urgent:hover{
-    background-color:rgb(163, 19, 19);   
-    color: rgb(252, 146, 146);
-}
-.date.current-day .task-item.completed {
-    background-color: #94ffad;
-    color: #094b18;
-    text-decoration: line-through;
-}
-.date.current-day .task-item.completed:hover {
-    background-color:#094b18;
-    color:#94ffad;
-    text-decoration: line-through;
-}
-
-.date.current-day .task-item.non-urgent {
-    background-color: rgb(255, 255, 161);
-    color: rgb(90, 90, 27);
-}
-.date.current-day .task-item.non-urgent:hover {
-    background-color:rgb(90, 90, 27); 
-    color: rgb(255, 255, 161);
 }
 
 .task-item.urgent {
-    background-color: rgb(243, 191, 191);   
+    background-color: rgb(243, 191, 191);
     color: rgb(255, 33, 33);
-}
-.task-item.urgent:hover {
-    background-color: rgb(255, 33, 33);   
-    color:rgb(243, 191, 191);
 }
 
 .task-item.non-urgent {
     background-color: yellow;
     color: rgb(87, 87, 54);
 }
-.task-item.non-urgent:hover {
-    background-color: rgb(87, 87, 54);
-    color: yellow;
-}
 
 .task-item.completed {
-    background-color:  #7eca90;
+    background-color: #7eca90;
     color: #155724;
     text-decoration: line-through;
-}
-.task-item.completed:hover {
-    background-color: #155724;
-    color: #7eca90;
-    text-decoration: line-through;
-}
-
-.task-item button.delete-task {
-    background: none;
-    border: none;
-    color: #dc3545;
-    font-size: 1rem;
     cursor: pointer;
 }
 
-.task-item button.delete-task:hover {
-    color: red;
-}
-
-/* Modal Styles */
+/* Modal */
 .custom-modal {
     display: none;
     position: fixed;
@@ -345,16 +225,16 @@ h1 {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.custom-modal-content{
+.custom-modal-content {
     background-color: #ffffff;
     margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
     max-width: 400px;
     width: 90%;
-    position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .close-button {
     position: absolute;
     top: 10px;
@@ -362,66 +242,13 @@ h1 {
     font-size: 1.5rem;
     color: #6c757d;
     cursor: pointer;
-    border: none;
-    background: none;
 }
-
-/* Hamburger Menu */
-.hamburger-menu {
-    position: relative;
-}
-
-#hamburgerButton {
-    font-size: 1.5rem;
-    background: var(--lighttxt);
-    border: 1px solid #0d6efd;
-    color: var(--Lightbg);
-    border-radius: 5px;
-    padding: 5px 5px;
-    cursor: pointer;
-}
-#hamburgerButton:hover {
-    background-color: var(--darkbg);
-    color: var(--darktxt)
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-#viewDropdown{
-    background-color: var(--Lightbg);
-}
-.dropdown-item{
-    color: var(--lighttxt);
-}
-.dropdown-menu .dropdown-item {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.dropdown-menu .dropdown-item:last-child {
-    border-bottom: none;
-}
-
-.dropdown-menu .dropdown-item:hover {
-    background-color: #f8f9fa;
-}
-
-.custom-modal h5 
-
 
 /* Buttons */
 button {
     cursor: pointer;
+    border: none;
+    outline: none;
 }
 
 button:disabled {
@@ -432,17 +259,12 @@ button:disabled {
 /* Responsive Design */
 @media (max-width: 768px) {
     .calendar-grid {
-        grid-template-columns: repeat(1, minmax(40px, 1fr));
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 
-
-/* TODO'S:
-
-/*IMPROVE RESPONSIVE DESIGN FOR SMALLER SCREENS
-
-/*ADD HOVER EFFECTS FOR TASK ITEMS AND CALENDAR CELLS
-Done
-
-/*CREATE A COMPLETE color SCHEME FOR THE PAGE
-done
+/* @supports (-moz-osx-font-smoothing: grayscale) {
+    body {
+        -moz-osx-font-smoothing: grayscale;
+    }
+} */
