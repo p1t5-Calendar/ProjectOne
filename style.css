@@ -1,14 +1,13 @@
-/* General Reset */
 * {
     margin: 4px;
   }
 :root {
     --Lightbg: rgb(175, 175, 175);
     --lighttxt: #000;
-    --darkbg: #141414;
+    --darkbg:  #141414;
     --darktxt: rgb(238, 231, 222);
     --darkinactive: #2c2929;
-    --darkactive: #344d55;
+    --darkactive:#344d55;
     --darktask: rgb(34, 0, 34);
   }
 #darkb{
@@ -157,49 +156,31 @@
     }
 } 
 
-/* Body Styling */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: var(--Lightbg);
     color: var(--lighttxt);
-    transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
+    margin: 0;
+    padding: 0;
+    transition: background-color ease-in .6s;
 }
 
-
-/* Font Smoothing */
-body {
-    -webkit-font-smoothing: antialiased; /* For Chrome, Edge, Safari */
+h1, h5 {
+    margin: 0;
 }
 
-/* Header Styling */
-header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
+h1 {
+    color: var(--lighttxt);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-#darkb {
-    border: solid 2.5px black;
-    background-color: rgb(38, 51, 155);
-    box-shadow: 4px 6px 8px black;
-    float: right;
-    margin-right: 20px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Container */
 .container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 80px); /* Adjus height to fill the screen */
 }
 .container .btn{
     background-color:var(--lighttxt);
@@ -214,30 +195,13 @@ header {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-auto-rows: var(--date-cell-height, 100px);
-    /* flex-grow: 1; Make the calendar grid fill available space instead of delete columns */
     gap: 1px;
     background-color: #dee2e6;
     border: 1px solid #dee2e6;
     border-radius: 8px;
+    overflow: hidden;
 }
 
-/* calendar days */
-.date-cell {
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-.date-cell.day-view {
-    grid-column: span 7;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
 .day-name {
     background-color: #e9ecef;
     text-align: center;
@@ -248,7 +212,6 @@ header {
 }
 
 .date {
-    position: relative; 
     background-color: var(--Lightbg);
     min-height: 100px;
     border: 1px solid #dee2e6;
@@ -257,30 +220,21 @@ header {
     justify-content: space-between;
     padding: 5px;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
-.date .add-task-btn {
-    visibility: hidden; 
-    opacity: 0; 
-    position: absolute;
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%); 
-    width: 40px; 
-    height: 40px; 
-    background-color: #198754; 
-    color: white;
-    border: none;
-    border-radius: 50%; /* Makes the button circular */
-    font-size: 0.75rem; 
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1; /*makes button hover above cell */
+.date.inactive {
+    background-color: #f8f9fa;
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+
+.date.active {
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.date.active:hover {
+    cursor: pointer;
+    background-color: #575e69;
 }
 
 .date .tasks {
@@ -294,14 +248,9 @@ header {
     background-color: rgb(117, 177, 176);
     color: var(--lighttxt);
 }
-
-.date.inactive {
-    background-color: #e9ecef; 
-    color: #6c757d; 
-    pointer-events: none; 
-    opacity: 0.5; 
+.date.current-day:hover {
+    background: rgb(40, 155, 175);
 }
-
 /* Task Styles */
 .task-item {
     margin: 5px 0;
@@ -343,22 +292,26 @@ header {
     color: rgb(255, 255, 161);
 }
 
-/* all other day */
-/* urgent task */
 .task-item.urgent {
-    background-color: rgb(243, 191, 191);
+    background-color: rgb(243, 191, 191);   
     color: rgb(255, 33, 33);
 }
+.task-item.urgent:hover {
+    background-color: rgb(255, 33, 33);   
+    color:rgb(243, 191, 191);
+}
 
-/* non urgent tasks */
 .task-item.non-urgent {
     background-color: yellow;
     color: rgb(87, 87, 54);
 }
+.task-item.non-urgent:hover {
+    background-color: rgb(87, 87, 54);
+    color: yellow;
+}
 
-/* completed tasks */
 .task-item.completed {
-    background-color: #7eca90;
+    background-color:  #7eca90;
     color: #155724;
     text-decoration: line-through;
 }
@@ -389,7 +342,7 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(173, 173, 173, 0.63);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .custom-modal-content{
@@ -402,7 +355,6 @@ header {
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 .close-button {
     position: absolute;
     top: 10px;
@@ -470,8 +422,6 @@ header {
 /* Buttons */
 button {
     cursor: pointer;
-    border: none;
-    outline: none;
 }
 
 button:disabled {
@@ -479,46 +429,20 @@ button:disabled {
     opacity: 0.6;
 }
 
-/* Calendar Auto Sizing */
-.calendar-grid.month-view {
-    grid-template-columns: repeat(7, 1fr);
-    transform: scale(1);
-}
-
-.calendar-grid.week-view {
-    grid-template-columns: repeat(7, 1fr);
-    transform: scale(1);
-}
-.calendar-grid.day-view {
-    grid-template-columns: repeat(7, 1fr);
-    transform: scale(1);
-    /* height: 100%; */
-}
-/* 
-/* .date-cell.day-view {
-    grid-column: span 7;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-} */
-
-
-@media (max-width: 480px) {
-    .calendar-grid {
-        grid-template-columns: repeat(1, minmax(40px, 1fr)); /* Adjusts to single column */
-    }
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
     .calendar-grid {
         grid-template-columns: repeat(1, minmax(40px, 1fr));
     }
 }
 
-/* @supports (-moz-osx-font-smoothing: grayscale) {
-    body {
-        -moz-osx-font-smoothing: grayscale;
-    }
-} */
+
+/* TODO'S:
+
+/*IMPROVE RESPONSIVE DESIGN FOR SMALLER SCREENS
+
+/*ADD HOVER EFFECTS FOR TASK ITEMS AND CALENDAR CELLS
+Done
+
+/*CREATE A COMPLETE color SCHEME FOR THE PAGE
+done
