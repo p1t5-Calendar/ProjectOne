@@ -9,12 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const darkModeButton = document.getElementById("darkb");
     const hamburgerButton = document.getElementById("hamburgerButton");
     const viewDropdown = document.getElementById("viewDropdown");
-    const todayButton = document.getElementById("todayButton");
 
     let currentDate = dayjs();
     let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
     let currentView = "month";
-    const icon = darkModeButton.querySelector("i");
+    let icon = darkModeButton.querySelector("i")
 
     // Dark Mode Toggle
     window.darkMode = () => {
@@ -50,6 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render Calendar
     function renderCalendar(date) {
+        calendarGrid.classList.remove("month-view", "week-view", "day-view");
+        calendarGrid.classList.add(`${currentView}-view`);
+   
         calendarGrid.innerHTML = "";
         ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
             const dayHeader = document.createElement("div");

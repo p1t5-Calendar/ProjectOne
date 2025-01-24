@@ -9,6 +9,7 @@
 :root {
     --Lightbg: rgb(175, 175, 175);
     --lighttxt: #000;
+    --lightboarder: rgb(204, 204, 204);
     --darkbg: #141414;
     --darktxt: rgb(238, 231, 222);
     --darkinactive: #2c2929;
@@ -41,21 +42,29 @@
     color: var(--darktxt);
 }
 
-
+.dark-mode .day-name {
+    background-color: #3d3d3d;
+    color: rgb(255, 255, 255); 
+}
 .dark-mode .date.current-day {
     border-color: white;
     background-color: var(--darkactive);
     color: white;
 }
 
+/* dark buttons */
 .dark-mode .btn {
     background-color: var(--darktask);
     color: var(--darktxt);
+    border: #000;
 }
-
 .dark-mode .btn:hover {
     background-color: var(--Lightbg);
     color: var(--darktask);
+}
+.dark-mode .date .add-task-btn {
+    background-color: #ffffff; 
+    color: black;
 }
 
 /* Body Styling */
@@ -66,16 +75,39 @@ body {
     transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
 }
 
+
 /* Font Smoothing */
 body {
     -webkit-font-smoothing: antialiased; /* For Chrome, Edge, Safari */
+}
+
+h1 {
+    font-size: 45px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+}
+
+h1,
+#monthYear {
+    font-weight: bold;
+}
+
+.add-task-btn{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.date {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#hamburgerButton {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
 }
 
 /* Header Styling */
 header {
     display: flex;
     justify-content: flex-end;
-    padding: 10px;
 }
 
 #darkb {
@@ -99,6 +131,7 @@ header {
     padding: 20px;
 }
 
+
 /* Calendar Grid */
 .calendar-grid {
     display: grid;
@@ -110,17 +143,25 @@ header {
 }
 
 .day-name {
+    font-family: Georgia, 'Times New Roman', Times, serif;
     background-color: #e9ecef;
     text-align: center;
     padding: 10px;
     font-weight: bold;
     border: 1px solid #dee2e6;
     color: var(--lighttxt); 
-    transition: color 0.3s ease-in-out; 
+    transition: color 0.3s ease-in-out; color: var(--lightboarder);
+    
 }
 
-.dark-mode .day-name {
-    color: rgb(200, 200, 200); 
+.calendar-grid.day-view {
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto 1fr;
+}
+
+.day-name {
+    background-color: #000000ce;
+    color: rgb(255, 255, 255); 
 }
 
 /* Month View - Default */
@@ -128,13 +169,14 @@ header {
 .date {
     position: relative; 
     background-color: var(--Lightbg);
-    min-height: 100px;
+    height: 150px;
     border: 1px solid #dee2e6;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 5px;
     cursor: pointer;
+    width: 150px;
 }
 
 .date .add-task-btn {
@@ -144,9 +186,9 @@ header {
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    width: 40px; 
-    height: 40px; 
-    background-color: #198754; 
+    width: 50px; 
+    height: 50px; 
+    background-color: #000000; 
     color: white;
     border: none;
     border-radius: 50%; /* Makes the button circular */
@@ -155,11 +197,12 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1; /*makes button hover above cell */
+    z-index: 1; /*makes button hover above cell*/
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
 
 
 /* Show Add Task Button on Hover */
@@ -184,6 +227,11 @@ header {
     opacity: 0.5; 
 }
 
+/* Changes the width of the date box in the day view */
+.date.active{
+    width: 100%;
+}
+
 /* Task Styles */
 .task-item {
     margin: 5px 0;
@@ -194,7 +242,19 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 }
+.tasks{
+    white-space: nowrap;
+    overflow-x: hidden; 
+    overflow-y: auto;   
+    text-overflow: ellipsis;
+    max-height: 150px; 
+    padding: 5px;  
+}
+/* .tasks{
+    overflow: show;
+} */
 
 .task-item.urgent {
     background-color: rgb(243, 191, 191);
@@ -222,17 +282,18 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(37, 37, 37, 0.705);
 }
 
 .custom-modal-content {
-    background-color: #ffffff;
+    background-color: var(--Lightbg);
+    color: var(--lighttxt);
     margin: 10% auto;
     padding: 20px;
     border-radius: 8px;
     max-width: 400px;
     width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(49, 49, 49, 0.1);
 }
 
 .close-button {
@@ -255,16 +316,94 @@ button:disabled {
     cursor: not-allowed;
     opacity: 0.6;
 }
+.btn {
+    background-color: pink;
+    color: var(--lighttxt);
+    border: #ffffff;
+}
+.btn:hover {
+    background-color: var(--darkbg);
+    color: var(--darktxt);
+}
+
+#todayButton{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
 
 /* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design - Extra Large Devices */
+@media (max-width: 1200px) {
     .calendar-grid {
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(5, 1fr); /* 5 columns for slightly smaller screens */
+}
+.day-name {
+    display: none; /* Hide day names to save space */
+}
+
+.date {
+    min-height: 90px; /* Adjust date cell height */
+}
+
+.date .add-task-btn {
+    width: 35px; /* Adjust button size */
+    height: 35px;
+    font-size: 0.7rem;
+}
+}
+@media (max-width: 1024px) {
+    .calendar-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns for medium screens */
+    }
+
+    .day-name {
+        display: none; /* Hide day names to save space */
+    }
+
+    .date {
+        min-height: 80px; /* Reduce date cell height */
+    }
+
+    .date .add-task-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.7rem;
     }
 }
 
-/* @supports (-moz-osx-font-smoothing: grayscale) {
-    body {
-        -moz-osx-font-smoothing: grayscale;
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
     }
-} */
+
+    .day-name {
+        display: none; /* Hide day names to save space */
+    }
+
+    .date {
+        min-height: 60px; /* Further reduce date cell height */
+    }
+
+    .date .add-task-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 column for very small screens */
+    }
+
+    .date {
+        min-height: 50px; /* Minimized date cell height */
+    }
+
+    .date .add-task-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 0.5rem;
+    }
+}
