@@ -18,7 +18,7 @@
        
     <div class="container py-4">
         <header class="mb-4 text-center">
-            <h1 class="fw-bold" aria-label="Group 5's Calendar">Group 5's Calendar</h1>
+            <h1 class="fw-bold">Group 5's Calendar</h1>
         </header>
     
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -47,9 +47,9 @@
 
     <div id="taskModal" class="custom-modal dark-mode">
         <div class="custom-modal-content">
-            <span class="close-button" onclick="closeModal()" aria-label="Close">&times;</span>
-            <h5 id="taskFormHeading">Add Task</h5>
-            <form id="taskForm" aria-labelledby="taskFormHeading">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h5>Add Task</h5>
+            <form id="taskForm">
                 <div class="mb-3">
                     <label for="taskInput" class="form-label">Task</label>
                     <input type="text" aria-label="Task" class="form-control" id="taskInput" required>
@@ -63,7 +63,7 @@
                         <input type="radio" aria-label="Non-Urgent" name="urgency" value="non-urgent"> Non-Urgent
                     </label>
                 </div>
-                <input type="hidden" id="selectedDate">
+                <input type="hidden" aria-label="hidden" id="selectedDate">
                 <button aria-label="Add Task" type="submit" class="btn btn-primary">Add Task</button>
             </form>
         </div>
@@ -73,4 +73,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
