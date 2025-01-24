@@ -16,7 +16,7 @@ To use this calendar
 Flash cards coming soon
 
 ## Credits 
-Phoebe Ferguson-
+Phoebe Ferguson-Phobeferg
 Ryan Lang-langiam
 Zawadi Brown-Zawadiflag12
 Rogerick Gordon-Rgordon333

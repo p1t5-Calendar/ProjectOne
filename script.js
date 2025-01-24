@@ -16,34 +16,31 @@ document.addEventListener("DOMContentLoaded", () => {
     let icon = darkModeButton.querySelector("i")
 
     // Dark Mode Toggle
-     darkModeButton.addEventListener("click", () => {
+    window.darkMode = () => {
         document.body.classList.toggle("dark-mode");
-        if (document.body.classList.contains ("dark-mode")){
-            icon.classList.remove("bi-moon-stars-fill");
-            icon.classList.add("bi-brightness-high-fill");
-        }
-        else{
-            icon.classList.remove("bi-brightness-high-fill");
-            icon.classList.add("bi-moon-stars-fill");
-        }});
+        icon.classList.toggle("bi-brightness-high-fill");
+        icon.classList.toggle("bi-moon-stars-fill");
+    };
 
+    darkModeButton.addEventListener("click", darkMode);
+
+    // Today's Date Button
+    todayButton.addEventListener("click", () => {
+        currentDate = dayjs();
+        renderCalendar(currentDate);
+    });
 
     // Save Tasks
     function saveTasks() {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
-    // Load Tasks
-    function loadTasks() {
-        tasks = JSON.parse(localStorage.getItem("tasks")) || {};
-    }
-
-    // Hamburger Button Dropdown Toggle
+    // Hamburger Menu Toggle
     hamburgerButton.addEventListener("click", () => {
         viewDropdown.style.display = viewDropdown.style.display === "block" ? "none" : "block";
     });
 
-    // Change View Function
+    // Change View
     window.changeView = (view) => {
         currentView = view;
         renderCalendar(currentDate);
@@ -52,13 +49,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render Calendar
     function renderCalendar(date) {
+        calendarGrid.classList.remove("month-view", "week-view", "day-view");
+        calendarGrid.classList.add(`${currentView}-view`);
+   
         calendarGrid.innerHTML = "";
-        const startOfMonth = date.startOf("month");
-        const daysInMonth = date.daysInMonth();
-        const startDayOfWeek = startOfMonth.day();
+        ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
+            const dayHeader = document.createElement("div");
+            dayHeader.className = "day-name";
+            dayHeader.textContent = day;
+            calendarGrid.appendChild(dayHeader);
+        });
 
         if (currentView === "month") {
-            renderMonthView(date, startOfMonth, daysInMonth, startDayOfWeek);
+            renderMonthView(date);
         } else if (currentView === "week") {
             renderWeekView(date);
         } else if (currentView === "day") {
@@ -69,8 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Render Month View
-    function renderMonthView(date, startOfMonth, daysInMonth, startDayOfWeek) {
+    function renderMonthView(date) {
+        const startOfMonth = date.startOf("month");
+        const daysInMonth = date.daysInMonth();
+        const startDayOfWeek = startOfMonth.day();
         const prevMonthDays = startOfMonth.subtract(1, "month").daysInMonth();
+
         for (let i = startDayOfWeek - 1; i >= 0; i--) {
             addDate(prevMonthDays - i, "inactive", null);
         }
@@ -102,7 +109,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Render Day View
     function renderDayView(date) {
         const formattedDate = date.format("YYYY-MM-DD");
-        addDate(date.date(), date.isSame(dayjs(), "day") ? "current-day active" : "active", formattedDate);
+
+        calendarGrid.innerHTML = "";
+
+        const dayHeader = document.createElement("div");
+        dayHeader.className = "day-name";
+        dayHeader.textContent = date.format("dddd, MMMM D, YYYY");
+        calendarGrid.appendChild(dayHeader);
+
+        const dayContainer = document.createElement("div");
+        dayContainer.className = "date active";
+        dayContainer.dataset.date = formattedDate;
+        dayContainer.innerHTML = `
+            <div>${date.date()}</div>
+            <div class="tasks" id="${formattedDate}-tasks"></div>
+            <button class="add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>
+        `;
+        calendarGrid.appendChild(dayContainer);
+
         renderTasks(formattedDate);
     }
 
@@ -110,10 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function addDate(day, classes, formattedDate) {
         const dateElement = document.createElement("div");
         dateElement.className = `date ${classes}`;
+        dateElement.dataset.date = formattedDate;
         dateElement.innerHTML = `
             <div>${day}</div>
             <div class="tasks" id="${formattedDate}-tasks"></div>
-            ${formattedDate ? `<button class="btn btn-success btn-sm mt-2" onclick="openModal('${formattedDate}')">Add Task</button>` : ""}
+            ${formattedDate ? `<button class="add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>` : ""}
         `;
         calendarGrid.appendChild(dateElement);
     }
@@ -124,25 +149,32 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!taskContainer) return;
 
         taskContainer.innerHTML = "";
+
         if (!tasks[date]) return;
 
-        tasks[date].forEach((task, index) => {
+        const sortedTasks = tasks[date].slice().sort((a, b) => {
+            if (a.completed !== b.completed) return a.completed ? 1 : -1;
+            if (a.urgency === "urgent" && b.urgency !== "urgent") return -1;
+            if (b.urgency === "urgent" && a.urgency !== "urgent") return 1;
+            return 0;
+        });
+
+        sortedTasks.forEach((task, index) => {
             const taskItem = document.createElement("div");
             taskItem.className = `task-item ${task.completed ? "completed" : task.urgency}`;
+            taskItem.dataset.date = date;
+            taskItem.dataset.index = index;
             taskItem.innerHTML = `
-                <span class="task-text" data-date="${date}" data-index="${index}" style="cursor: pointer;">${task.text}</span>
+                <span class="task-text">${task.text}</span>
                 <button onclick="deleteTask('${date}', ${index})" class="delete-task">&times;</button>
             `;
-            taskItem.querySelector(".task-text").addEventListener("click", () => {
-                toggleComplete(date, index);
-            });
+            taskItem.querySelector(".task-text").addEventListener("click", () => toggleComplete(date, index));
             taskContainer.appendChild(taskItem);
         });
     }
 
     // Toggle Complete Task
     window.toggleComplete = (date, index) => {
-        if (!tasks[date]) return;
         tasks[date][index].completed = !tasks[date][index].completed;
         saveTasks();
         renderTasks(date);
@@ -150,7 +182,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Delete Task
     window.deleteTask = (date, index) => {
-        if (!tasks[date]) return;
         tasks[date].splice(index, 1);
         if (tasks[date].length === 0) delete tasks[date];
         saveTasks();
@@ -167,12 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "none";
     };
 
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+    });
+
     taskForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const date = selectedDateInput.value;
         const taskText = document.getElementById("taskInput").value.trim();
         const urgency = document.querySelector('input[name="urgency"]:checked');
-
         if (!taskText || !urgency) return;
 
         if (!tasks[date]) tasks[date] = [];
@@ -182,16 +216,61 @@ document.addEventListener("DOMContentLoaded", () => {
         closeModal();
     });
 
+    function renderWeekView(date) {
+        const startOfWeek = date.startOf("week");
+        const endOfWeek = date.endOf("week");
+    
+        for (let i = 0; i < 7; i++) {
+            const day = startOfWeek.add(i, "day");
+            const formattedDate = day.format("YYYY-MM-DD");
+    
+            // Determine if the day belongs to the current month
+            const isCurrentMonth = day.month() === date.month();
+            const dayClass = isCurrentMonth
+                ? day.isSame(dayjs(), "day") 
+                    ? "current-day active" 
+                    : "active"
+                : "inactive"; 
+    
+            addDate(day.date(), dayClass, formattedDate);
+            if (isCurrentMonth) renderTasks(formattedDate);
+        }
+    }
+    
+    // Add Date to Calendar
+    function addDate(day, classes, formattedDate) {
+        const dateElement = document.createElement("div");
+        dateElement.className = `date ${classes}`;
+        dateElement.dataset.date = formattedDate;
+        dateElement.innerHTML = `
+            <div>${day}</div>
+            <div class="tasks" id="${formattedDate}-tasks"></div>
+            ${formattedDate ? `<button class="add-task-btn" onclick="openModal('${formattedDate}')">+ Task</button>` : ""}
+        `;
+        calendarGrid.appendChild(dateElement);
+    }
+    
     prevMonthButton.addEventListener("click", () => {
-        currentDate = currentDate.subtract(1, "month");
+        if (currentView === "week") {
+            currentDate = currentDate.subtract(1, "week");
+        } else if (currentView === "day") {
+            currentDate = currentDate.subtract(1, "day");
+        } else {
+            currentDate = currentDate.subtract(1, "month");
+        }
         renderCalendar(currentDate);
     });
 
     nextMonthButton.addEventListener("click", () => {
-        currentDate = currentDate.add(1, "month");
+        if (currentView === "week") {
+            currentDate = currentDate.add(1, "week");
+        } else if (currentView === "day") {
+            currentDate = currentDate.add(1, "day");
+        } else {
+            currentDate = currentDate.add(1, "month");
+        }
         renderCalendar(currentDate);
     });
 
-    loadTasks();
     renderCalendar(currentDate);
 });
