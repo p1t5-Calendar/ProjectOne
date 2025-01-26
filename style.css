@@ -66,7 +66,16 @@
     background-color: #ffffff; 
     color: black;
 }
-
+/* Hamburger    */
+.dark-mode .dropdown-menu{
+background-color: var(--darktask);
+}
+.dark-mode .dropdown-item{
+    color: white;
+}
+.dark-mode .dropdown-item:hover{
+    background-color: black;
+}
 /* Body Styling */
 body {
     font-family: Arial, sans-serif;
@@ -84,6 +93,11 @@ body {
 h1 {
     font-size: 45px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+    padding-right: 20px;
+}
+
+header{
+    margin-bottom: 0px;
 }
 
 h1,
@@ -99,11 +113,20 @@ h1,
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+/* Hamburger Button */
 #hamburgerButton {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: bold;
 }
-
+.dropdown-menu{
+background-color: pink;
+}
+.dropdown-item{
+    color: black;
+}
+.dropdown-item:hover{
+    background-color: white;
+}
 /* Header Styling */
 header {
     display: flex;
@@ -114,7 +137,6 @@ header {
     border: solid 2.5px black;
     background-color: rgb(38, 51, 155);
     box-shadow: 4px 6px 8px black;
-    float: right;
     margin-right: 20px;
     border-radius: 50%;
     width: 40px;
@@ -165,7 +187,8 @@ header {
 }
 
 /* Month View - Default */
-/* Default Date Styling */
+/*Date Styling */
+/* diiferent view styling */
 .date {
     position: relative; 
     background-color: var(--Lightbg);
@@ -176,7 +199,17 @@ header {
     justify-content: space-between;
     padding: 5px;
     cursor: pointer;
-    width: 150px;
+}
+
+.week-view .date {
+    height: 400px;
+}
+.day-view .date {
+    height: 400px;
+}
+/* Changes the width of the date box in the day view */
+.date.active{
+    width: 100%;
 }
 
 .date .add-task-btn {
@@ -184,7 +217,7 @@ header {
     opacity: 0; 
     position: absolute;
     top: 50%; 
-    left: 50%; 
+    left:50%; 
     transform: translate(-50%, -50%); 
     width: 50px; 
     height: 50px; 
@@ -203,15 +236,12 @@ header {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-
-
 /* Show Add Task Button on Hover */
 .date:hover .add-task-btn {
     visibility: visible; 
     opacity: 1; 
     transform: translate(-50%, -50%) scale(1.1); 
 }
-
 
 /* Current Day Highlight */
 .date.current-day {
@@ -227,10 +257,6 @@ header {
     opacity: 0.5; 
 }
 
-/* Changes the width of the date box in the day view */
-.date.active{
-    width: 100%;
-}
 
 /* Task Styles */
 .task-item {
@@ -252,10 +278,6 @@ header {
     max-height: 150px; 
     padding: 5px;  
 }
-/* .tasks{
-    overflow: show;
-} */
-
 .task-item.urgent {
     background-color: rgb(243, 191, 191);
     color: rgb(255, 33, 33);
@@ -316,6 +338,7 @@ button:disabled {
     cursor: not-allowed;
     opacity: 0.6;
 }
+
 .btn {
     background-color: pink;
     color: var(--lighttxt);
