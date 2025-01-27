@@ -236,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isCurrentMonth) renderTasks(formattedDate);
         }
     }
-    
     // Add Date to Calendar
     function addDate(day, classes, formattedDate) {
         const dateElement = document.createElement("div");
