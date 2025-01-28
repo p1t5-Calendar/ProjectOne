@@ -69,14 +69,21 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderCalendar(date) {
         calendarGrid.classList.remove("month-view", "week-view", "day-view");
         calendarGrid.classList.add(`${currentView}-view`);
-   
+    
         calendarGrid.innerHTML = "";
+    
         ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].forEach((day) => {
             const dayHeader = document.createElement("div");
             dayHeader.className = "day-name";
             dayHeader.textContent = day;
             calendarGrid.appendChild(dayHeader);
         });
+
+        const screenWidth = window.innerWidth;
+        if (screenWidth < 768 && currentView === "month") {
+            changeView("week"); 
+            return;
+        }
 
         if (currentView === "month") {
             renderMonthView(date);
@@ -85,10 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (currentView === "day") {
             renderDayView(date);
         }
+    
 
         monthYear.textContent = date.format("MMMM YYYY");
         focusOnToday();
-    }
+}
 // Function that brings you to today's date automatically on the screen
     function focusOnToday() {
         const todayElement = document.querySelector(".date.current-day");
@@ -161,19 +169,21 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderTasks(date) {
         const taskContainer = document.getElementById(`${date}-tasks`);
         if (!taskContainer) return;
-
+    
         taskContainer.innerHTML = "";
-
+    
         if (!tasks[date]) return;
-
+    
         const sortedTasks = tasks[date].slice().sort((a, b) => {
             if (a.completed !== b.completed) return a.completed ? 1 : -1;
             if (a.urgency === "urgent" && b.urgency !== "urgent") return -1;
             if (b.urgency === "urgent" && a.urgency !== "urgent") return 1;
             return 0;
         });
-
-        sortedTasks.forEach((task, index) => {
+    
+        // Limit # of tasks on mobile
+        const maxTasks = window.innerWidth < 768 ? 2 : 5; 
+        sortedTasks.slice(0, maxTasks).forEach((task, index) => {
             const taskItem = document.createElement("div");
             taskItem.className = `task-item ${task.completed ? "completed" : task.urgency}`;
             taskItem.dataset.date = date;
@@ -185,8 +195,40 @@ document.addEventListener("DOMContentLoaded", () => {
             taskItem.querySelector(".task-text").addEventListener("click", () => toggleComplete(date, index));
             taskContainer.appendChild(taskItem);
         });
-    }
-
+    
+        if (sortedTasks.length > maxTasks) {
+            const viewAllButton = document.createElement("button");
+            viewAllButton.className = "view-all-tasks";
+            viewAllButton.innerHTML = "&#9660;"; 
+            viewAllButton.style.color = "grey";
+            viewAllButton.addEventListener("click", () => {
+                taskContainer.innerHTML = "";
+                sortedTasks.forEach((task, index) => {
+                    const taskItem = document.createElement("div");
+                    taskItem.className = `task-item ${task.completed ? "completed" : task.urgency}`;
+                    taskItem.dataset.date = date;
+                    taskItem.dataset.index = index;
+                    taskItem.innerHTML = `
+                        <span class="task-text">${task.text}</span>
+                        <button onclick="deleteTask('${date}', ${index})" class="delete-task">&times;</button>
+                    `;
+                    taskItem.querySelector(".task-text").addEventListener("click", () => toggleComplete(date, index));
+                    taskContainer.appendChild(taskItem);
+                });
+    
+                // Replace arrow with "Collapse" option
+                const collapseButton = document.createElement("button");
+                collapseButton.className = "view-all-tasks";
+                collapseButton.innerHTML = "&#9650;"; 
+                collapseButton.style.color = "grey";
+                collapseButton.addEventListener("click", () => {
+                    renderTasks(date); 
+                });
+                taskContainer.appendChild(collapseButton);
+            });
+            taskContainer.appendChild(viewAllButton);
+        }
+    }   
     // Toggle Complete Task
     window.toggleComplete = (date, index) => {
         tasks[date][index].completed = !tasks[date][index].completed;
@@ -206,9 +248,28 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTasks(date);
     };
 
+    function openModal(date, event) {
+        if (event) event.stopPropagation(); 
+        selectedDateInput.value = date;
+    
+        // Display the modal
+        modal.style.display = "block";
+    
+        // Dynamically position the modal in the center of the viewport
+        const modalRect = modalContent.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+    
+        const topPosition = Math.max((viewportHeight - modalRect.height) / 2, 20);
+        const leftPosition = Math.max((viewportWidth - modalRect.width) / 2, 20);
+    
+        modalContent.style.top = `${topPosition}px`;
+        modalContent.style.left = `${leftPosition}px`;
+        modalContent.style.position = "absolute";
+    }
     // Modal Functions
     window.openModal = (date, event) => {
-        if (event) event.stopPropagation(); // Prevent click/touch events from propagating
+        if (event) event.stopPropagation(); 
         selectedDateInput.value = date;
         modal.style.display = "block";
     };
@@ -217,24 +278,38 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "none";
     };
 
+    window.addEventListener("resize", () => {
+        if (modal.style.display === "block") {
+            const modalRect = modalContent.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+    
+            const topPosition = Math.max((viewportHeight - modalRect.height) / 2, 20);
+            const leftPosition = Math.max((viewportWidth - modalRect.width) / 2, 20);
+    
+            modalContent.style.top = `${topPosition}px`;
+            modalContent.style.left = `${leftPosition}px`;
+        }
+    });
+
 // Dragging and Resizing the Modal
 modalHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
     dragOffset.x = e.clientX - modalContent.offsetLeft;
     dragOffset.y = e.clientY - modalContent.offsetTop;
-    modalContent.style.transition = "none"; // Disable transitions during dragging
+    modalContent.style.transition = "none"; 
 });
 
 document.addEventListener("mousemove", (e) => {
     if (isDragging) {
         modalContent.style.left = `${e.clientX - dragOffset.x}px`;
         modalContent.style.top = `${e.clientY - dragOffset.y}px`;
-        modalContent.style.position = "absolute"; // Ensure the modal moves independently
+        modalContent.style.position = "absolute"; 
     }
 });
 
 document.addEventListener("mouseup", () => {
-    isDragging = false; // End dragging
+    isDragging = false; 
 });
 
 // Resizing the Modal for Desktop
@@ -256,7 +331,7 @@ document.addEventListener("mousemove", (e) => {
 });
 
 document.addEventListener("mouseup", () => {
-    isResizing = false; // End resizing
+    isResizing = false; 
 });
 
 // Dragging the Entire Modal (Desktop)
@@ -264,28 +339,28 @@ modalContent.addEventListener("mousedown", (e) => {
     isDragging = true;
     dragOffset.x = e.clientX - modalContent.offsetLeft;
     dragOffset.y = e.clientY - modalContent.offsetTop;
-    modalContent.style.transition = "none"; // Disable transitions during dragging
+    modalContent.style.transition = "none"; 
 });
 
 document.addEventListener("mousemove", (e) => {
     if (isDragging) {
         modalContent.style.left = `${e.clientX - dragOffset.x}px`;
         modalContent.style.top = `${e.clientY - dragOffset.y}px`;
-        modalContent.style.position = "absolute"; // Ensure the modal moves independently
+        modalContent.style.position = "absolute"; 
     }
 });
 
 document.addEventListener("mouseup", () => {
-    isDragging = false; // End dragging
+    isDragging = false; 
 });
 
 // Dragging the Entire Modal (Touch Devices)
 modalContent.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 1) { // Single touch
+    if (e.touches.length === 1) { 
         isDragging = true;
         dragOffset.x = e.touches[0].clientX - modalContent.offsetLeft;
         dragOffset.y = e.touches[0].clientY - modalContent.offsetTop;
-        modalContent.style.transition = "none"; // Disable transitions during dragging
+        modalContent.style.transition = "none"; 
     }
 });
 
@@ -298,12 +373,12 @@ modalContent.addEventListener("touchmove", (e) => {
 });
 
 modalContent.addEventListener("touchend", () => {
-    isDragging = false; // End dragging
+    isDragging = false; 
 });
 
 // Resizing the Modal for Touch Devices
 resizeHandle.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 2) { // Multitouch
+    if (e.touches.length === 2) { 
         isResizing = true;
         initialDistance = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
@@ -330,6 +405,25 @@ resizeHandle.addEventListener("touchmove", (e) => {
 resizeHandle.addEventListener("touchend", () => {
     isResizing = false; // End resizing
 });
+
+// Add event listener to the entire calendar grid
+calendarGrid.addEventListener("click", (event) => {
+    const targetCell = event.target.closest(".date"); // Get the tapped date cell
+    if (!targetCell) return;
+
+    // Hide all other Add Task buttons
+    const allAddTaskButtons = document.querySelectorAll(".add-task-btn");
+    allAddTaskButtons.forEach((button) => (button.style.opacity = "0"));
+
+    // Show the Add Task button for the tapped cell
+    const addTaskButton = targetCell.querySelector(".add-task-btn");
+    if (addTaskButton) {
+        addTaskButton.style.opacity = "1";
+        addTaskButton.style.zIndex = "10"; // Ensure the button is on top
+    }
+});
+
+
 
 // Pinch-to-resize fallback for multitouch interactions
 modal.addEventListener("touchstart", (e) => {
@@ -364,6 +458,10 @@ window.addEventListener("click", (e) => {
     } else if (modal.contains(e.target)) {
         e.stopPropagation();
     }
+});
+
+modalContent.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent click propagation
 });
 
     taskForm.addEventListener("submit", (e) => {
@@ -401,23 +499,26 @@ window.addEventListener("click", (e) => {
         }
     }
     
-calendarGrid.addEventListener("touchstart", (e) => {
-    const target = e.target.closest(".date"); // Ensure the target is a date cell
-    if (!target) return;
-
-    const currentTime = new Date().getTime();
-    const timeDiff = currentTime - lastTap;
-
-    if (timeDiff < 300 && timeDiff > 0) { // Detect double-tap (within 300ms)
-        const date = target.dataset.date;
-        if (date) {
-            openModal(date, e); // Pass the event to prevent propagation
+    calendarGrid.addEventListener("touchstart", (e) => {
+        const target = e.target.closest(".date");
+        if (!target) return;
+    
+        const currentTime = new Date().getTime();
+        const timeDiff = currentTime - lastTap;
+    
+        if (timeDiff < 300 && timeDiff > 0) { // Double-tap
+            const date = target.dataset.date;
+            if (date) {
+                openModal(date, e);
+            }
+        } else { // Single-tap
+            setTimeout(() => {
+                // Handle single-tap actions (e.g., select date)
+            }, 300);
         }
-    }
-
-    lastTap = currentTime; // Update the last tap timestamp
-});
-
+    
+        lastTap = currentTime;
+    });
     // Add Date to Calendar
     function addDate(day, classes, formattedDate) {
         const dateElement = document.createElement("div");
