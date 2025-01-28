@@ -9,29 +9,22 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="data:,">
 </head>
-<<<<<<< HEAD
 <body>
-    <header>
-        <button id="darkb" class="dark-mode" style="font-size:23px" aria-label="Toggle dark mode">
-            <i class="bi bi-moon-stars-fill" role="img" aria-label="Moon and stars icon"></i>
-        </button>
-    </header>
-       
-=======
-<body>       
->>>>>>> adf6752a1b52667d20ba1f7e3bb155e2fb3f41e3
+
     <div class="container py-4">
         <header class="text-center">
-            <h1 class="fw-bold">Group 5's Calendar </h1>
-            <button id="darkb" class="dark-mode" style="font-size:23px" aria-label="Toggle dark mode">
-                <i class="bi bi-moon-stars-fill"></i>
-            </button>
+            <h1 class="call">Group 5's Calendar</h1>
+             <button id="darkb" class="dark-mode" style="font-size:28px" aria-label="Toggle dark mode">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
         </header>
-    
+
         <div class="d-flex justify-content-between align-items-center">
+            <div class="cal-head">
             <button id="prevMonth" class="btn btn-outline-primary" aria-label="Previous Month">◀</button>
-            <h1 id="monthYear" class="m-0"></h1>
+            <h1 id="monthYear"></h1>
             <button id="nextMonth" class="btn btn-outline-primary" aria-label="Next Month">▶</button>
+        </div>
             <button id="todayButton" class="btn btn-outline-success" aria-label="Go To Today">Today</button>
             <div class="hamburger-menu">
                 <button id="hamburgerButton" class="btn btn-outline-secondary" aria-label="View Button">☰ View</button>
@@ -42,7 +35,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="calendar-grid" id="calendarGrid">
             <!-- Example hardcoded date for demonstration -->
             <div class="date" data-date="2025-01-01">
@@ -53,29 +46,32 @@
             </div>
         </div>
 
-    <div id="taskModal" class="custom-modal" role="dialog" aria-labelledby="taskModalLabel" aria-modal="true">
-        <div class="custom-modal-content">
-            <span class="close-button" onclick="closeModal()">&times;</span>
-            <h5 aria-label="Add task">Add Task</h5>
-            <form id="taskForm">
-                <div class="mb-3">
-                    <label for="taskInput" class="form-label">Task</label>
-                    <input type="text" aria-label="Task" class="form-control" id="taskInput" required>
+        <div id="taskModal" class="custom-modal">
+            <div class="custom-modal-content" id="modalContent">
+                <div class="modal-header" id="modalHeader">
+                    <span class="close-button" onclick="closeModal()">&times;</span>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" aria-label="Urgency">Urgency</label><br>
-                    <label>
-                        <input type="radio" aria-label="Urgent" name="urgency" value="urgent" required> Urgent
-                    </label><br>
-                    <label>
-                        <input type="radio" aria-label="Non-Urgent" name="urgency" value="non-urgent"> Non-Urgent
-                    </label>
-                </div>
-                <input type="hidden" aria-label="hidden" id="selectedDate">
-                <button aria-label="Add Task" type="submit" class="btn btn-primary">Add Task</button>
-            </form>
+                <form id="taskForm">
+                    <div class="mb-3">
+                        <label for="taskInput" class="form-label">Task</label>
+                        <input type="text" aria-label="Task" class="form-control" id="taskInput" required>
+                    </div>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" aria-label="Urgent" name="urgency" value="urgent" required>
+                            Urgent
+                        </label>
+                        <label>
+                            <input type="radio" aria-label="Non-Urgent" name="urgency" value="non-urgent">
+                            Non-Urgent
+                        </label>
+                    </div>
+                    <input type="hidden" aria-label="hidden" id="selectedDate">
+                    <button aria-label="Add Task" type="submit" class="btn btn-primary">Add Task</button>
+                </form>
+                <div class="resize-handle" id="resizeHandle"></div>
+            </div>
         </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
     <script src="script.js"></script>

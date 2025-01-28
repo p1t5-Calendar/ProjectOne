@@ -33,6 +33,7 @@
 .dark-mode h1,
 .dark-mode h5 {
     color: var(--darktxt);
+    text-shadow: 2px 3px 8px rgb(218, 213, 213);
 }
 
 .dark-mode .calendar-grid,
@@ -40,6 +41,7 @@
 .dark-mode .date {
     background-color: var(--darkbg);
     color: var(--darktxt);
+    box-shadow: 4px 4px 10px rgb(218, 213, 213);
 }
 
 .dark-mode .day-name {
@@ -57,6 +59,7 @@
     background-color: var(--darktask);
     color: var(--darktxt);
     border: #000;
+    box-shadow: 2px 3px 8px rgb(224, 130, 224);
 }
 .dark-mode .btn:hover {
     background-color: var(--Lightbg);
@@ -84,7 +87,6 @@ body {
     transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
 }
 
-
 /* Font Smoothing */
 body {
     -webkit-font-smoothing: antialiased; /* For Chrome, Edge, Safari */
@@ -93,14 +95,11 @@ body {
 h1 {
     font-size: 45px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
-    padding-right: 20px;
+    font-weight: bold;
 }
-
-header{
-    margin-bottom: 0px;
+.call{
+    padding-right: 15px;
 }
-
-h1,
 #monthYear {
     font-weight: bold;
 }
@@ -120,6 +119,7 @@ h1,
 }
 .dropdown-menu{
 background-color: pink;
+min-width: 0px;
 }
 .dropdown-item{
     color: black;
@@ -135,15 +135,16 @@ header {
 
 #darkb {
     border: solid 2.5px black;
-    background-color: rgb(38, 51, 155);
+    background-color:  rgb(38, 51, 155);
     box-shadow: 4px 6px 8px black;
     margin-right: 20px;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* color: yellow; */
 }
 
 /* Container */
@@ -163,27 +164,25 @@ header {
     border: 1px solid #dee2e6;
     border-radius: 8px;
 }
-
+.cal-head{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
 .day-name {
+    background-color: rgb(219, 219, 219);
+    color: black; 
     font-family: Georgia, 'Times New Roman', Times, serif;
-    background-color: #e9ecef;
     text-align: center;
     padding: 10px;
     font-weight: bold;
     border: 1px solid #dee2e6;
-    color: var(--lighttxt); 
-    transition: color 0.3s ease-in-out; color: var(--lightboarder);
-    
+    transition: color 0.3s ease-in-out;
 }
 
 .calendar-grid.day-view {
     grid-template-columns: 1fr; 
     grid-template-rows: auto 1fr;
-}
-
-.day-name {
-    background-color: #000000ce;
-    color: rgb(255, 255, 255); 
 }
 
 /* Month View - Default */
@@ -213,23 +212,19 @@ header {
 }
 
 .date .add-task-btn {
-    visibility: hidden; 
+    display: block; 
     opacity: 0; 
     position: absolute;
-    top: 50%; 
-    left:50%; 
+    top: 13%; 
+    right: -9%; 
     transform: translate(-50%, -50%); 
-    width: 50px; 
-    height: 50px; 
+    width: 40px; 
+    height: 30px; 
     background-color: #000000; 
     color: white;
     border: none;
     border-radius: 50%; /* Makes the button circular */
-    font-size: 0.75rem; 
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 0.7rem !important; 
     z-index: 1; /*makes button hover above cell*/
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -278,6 +273,22 @@ header {
     max-height: 150px; 
     padding: 5px;  
 }
+.dark-mode .task-item.urgent {
+    background-color: rgb(255, 33, 33); 
+    color: rgb(243, 191, 191);
+}
+
+.dark-mode .task-item.non-urgent {
+    background-color: rgb(87, 87, 54);
+    color: yellow;
+}
+
+.dark-mode .task-item.completed {
+    background-color:#3b3b3b;
+    color: #aaaaaa;
+    text-decoration: line-through;
+    cursor: pointer;
+}
 .task-item.urgent {
     background-color: rgb(243, 191, 191);
     color: rgb(255, 33, 33);
@@ -289,8 +300,8 @@ header {
 }
 
 .task-item.completed {
-    background-color: #7eca90;
-    color: #155724;
+    background-color: #aaaaaa;
+    color: #3b3b3b;
     text-decoration: line-through;
     cursor: pointer;
 }
@@ -307,16 +318,81 @@ header {
     background-color: rgba(37, 37, 37, 0.705);
 }
 
+/* Modal Content */
 .custom-modal-content {
+    position: absolute;
     background-color: var(--Lightbg);
     color: var(--lighttxt);
-    margin: 10% auto;
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
-    max-width: 400px;
-    width: 90%;
     box-shadow: 0 4px 8px rgba(49, 49, 49, 0.1);
+    resize: both;
+    overflow: auto;
+    min-width: 200px;
+    min-height: 150px;
+    max-width: 90vw;
+    max-height: 90vh;
 }
+
+/* Thinner Header Bar */
+.modal-header {
+    cursor: move;
+    padding: 2px 10px; /* Reduce padding for thinner bar */
+    background-color: #ccc;
+    border-bottom: 1px solid #aaa;
+    font-weight: normal;
+    display: flex;
+    justify-content: flex-end; /* Align close button to the right */
+}
+
+/* Close Button */
+.modal-header .close-button {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Form Layout */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Labels and Input Fields */
+form .form-label {
+    font-weight: bold;
+}
+
+form input,
+form button {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Inline Radio Buttons */
+.radio-group {
+    display: flex;
+    justify-content: space-between; /* Spread options across the form width */
+    align-items: center;
+}
+
+/* Add Task Button */
+form button {
+    margin-top: auto; /* Push button to the bottom of the modal */
+}
+
+/* Resize Handle */
+.resize-handle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    bottom: 5px;
+    right: 5px;
+    cursor: se-resize;
+    background-color: #aaa;
+    border-radius: 50%;
+}
+
 
 .close-button {
     position: absolute;
@@ -325,6 +401,18 @@ header {
     font-size: 1.5rem;
     color: #6c757d;
     cursor: pointer;
+}
+
+.delete-task {
+    background: none;
+    border: none;
+    color: #dc3545; /* Bootstrap Danger Red */
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.delete-task:hover {
+    color: red; /* Brighter red on hover */
 }
 
 /* Buttons */
@@ -343,6 +431,8 @@ button:disabled {
     background-color: pink;
     color: var(--lighttxt);
     border: #ffffff;
+    height: 55px;
+    font-size: 1.2em;
 }
 .btn:hover {
     background-color: var(--darkbg);
@@ -354,38 +444,38 @@ button:disabled {
     font-weight: bold;
 }
 
-
-/* Responsive Design */
-/* Responsive Design - Extra Large Devices */
+/* 
+Responsive Design
+Responsive Design - Extra Large Devices
 @media (max-width: 1200px) {
     .calendar-grid {
-        grid-template-columns: repeat(5, 1fr); /* 5 columns for slightly smaller screens */
+        grid-template-columns: repeat(5, 1fr); 
 }
 .day-name {
-    display: none; /* Hide day names to save space */
+    display: none; 
 }
 
 .date {
-    min-height: 90px; /* Adjust date cell height */
-}
+    min-height: 90px; 
 
 .date .add-task-btn {
-    width: 35px; /* Adjust button size */
+    width: 35px; 
     height: 35px;
     font-size: 0.7rem;
 }
 }
+Responsive Design - Large Devices
 @media (max-width: 1024px) {
     .calendar-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 columns for medium screens */
+        grid-template-columns: repeat(4, 1fr); 
     }
 
     .day-name {
-        display: none; /* Hide day names to save space */
+        display: none; 
     }
 
     .date {
-        min-height: 80px; /* Reduce date cell height */
+        min-height: 80px; 
     }
 
     .date .add-task-btn {
@@ -394,18 +484,18 @@ button:disabled {
         font-size: 0.7rem;
     }
 }
-
+Responsive Design - Medium Devices
 @media (max-width: 768px) {
     .calendar-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for small screens */
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .day-name {
-        display: none; /* Hide day names to save space */
+        display: none; 
     }
 
     .date {
-        min-height: 60px; /* Further reduce date cell height */
+        min-height: 60px; 
     }
 
     .date .add-task-btn {
@@ -413,20 +503,48 @@ button:disabled {
         height: 30px;
         font-size: 0.6rem;
     }
-}
+} */
 
-@media (max-width: 480px) {
+/* Responsive Design - Small Devices*/
+@media (max-width: 450px) {
     .calendar-grid {
-        grid-template-columns: repeat(1, 1fr); /* 1 column for very small screens */
+        grid-template-columns: repeat(1, 1fr);
+        
     }
 
+    .day-name {
+        display: none; 
+    }
+
+    .dropdown-menu{
+        right: 15px;
+        min-width: 0px;
+    }
+    .dropdown-item{
+        font-size: 12px;
+        }
+    h1{
+        font-size: 30px;
+    }
+    
+    #todayButton{
+        display: none;
+    }
+    
     .date {
-        min-height: 50px; /* Minimized date cell height */
+        min-height: 40px; /* Minimized date cell height */
     }
 
     .date .add-task-btn {
-        width: 25px;
+        width: 80%;
         height: 25px;
         font-size: 0.5rem;
+        position: relative;
+        /* transform: translate(-50%, -50%); */
+        left:200px;
+        top: -20px;
     }
+
+    
+    
 }

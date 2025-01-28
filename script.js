@@ -4,26 +4,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevMonthButton = document.getElementById("prevMonth");
     const nextMonthButton = document.getElementById("nextMonth");
     const modal = document.getElementById("taskModal");
+    const modalContent = document.getElementById("modalContent");
+    const modalHeader = document.getElementById("modalHeader");
+    const resizeHandle = document.getElementById("resizeHandle");
     const taskForm = document.getElementById("taskForm");
     const selectedDateInput = document.getElementById("selectedDate");
     const darkModeButton = document.getElementById("darkb");
     const hamburgerButton = document.getElementById("hamburgerButton");
     const viewDropdown = document.getElementById("viewDropdown");
+    const todayButton = document.getElementById("todayButton");
 
     let currentDate = dayjs();
     let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
     let currentView = "month";
     let icon = darkModeButton.querySelector("i")
+    let isDragging = false;
+    let isResizing = false;
+    let dragOffset = { x: 0, y: 0 };
+    let startSize = { width: 0, height: 0 };
+    let startPosition = { x: 0, y: 0 };
+    let lastTap = 0;
+
 
     // Dark Mode Toggle
-    window.darkMode = () => {
+   
+    
+    function toggleDarkMode() {
         document.body.classList.toggle("dark-mode");
-        icon.classList.toggle("bi-brightness-high-fill");
-        icon.classList.toggle("bi-moon-stars-fill");
-    };
+        icon.classList.toggle("bi-brightness-high-fill", !document.body.classList.contains("dark-mode"));
+        icon.classList.toggle("bi-moon-stars-fill", document.body.classList.contains("dark-mode"));
+    }
+    darkModeButton.addEventListener("click", toggleDarkMode);
 
-    darkModeButton.addEventListener("click", darkMode);
-
+    
     // Today's Date Button
     todayButton.addEventListener("click", () => {
         currentDate = dayjs();
@@ -34,7 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function saveTasks() {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
-
+    // Helper Function: Format Dates
+    function getFormattedDate(date) {
+        return date.format("YYYY-MM-DD");
+    }
     // Hamburger Menu Toggle
     hamburgerButton.addEventListener("click", () => {
         viewDropdown.style.display = viewDropdown.style.display === "block" ? "none" : "block";
@@ -46,6 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCalendar(currentDate);
         viewDropdown.style.display = "none";
     };
+
+
 
     // Render Calendar
     function renderCalendar(date) {
@@ -69,8 +87,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         monthYear.textContent = date.format("MMMM YYYY");
+        focusOnToday();
     }
-
+// Function that brings you to today's date automatically on the screen
+    function focusOnToday() {
+        const todayElement = document.querySelector(".date.current-day");
+        if (todayElement) {
+            todayElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }
+    
     // Render Month View
     function renderMonthView(date) {
         const startOfMonth = date.startOf("month");
@@ -83,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
-            const formattedDate = date.date(day).format("YYYY-MM-DD");
+            const formattedDate = getFormattedDate(date.date(day));
             addDate(day, date.date(day).isSame(dayjs(), "day") ? "current-day active" : "active", formattedDate);
             renderTasks(formattedDate);
         }
@@ -100,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const startOfWeek = date.startOf("week");
         for (let i = 0; i < 7; i++) {
             const day = startOfWeek.add(i, "day");
-            const formattedDate = day.format("YYYY-MM-DD");
+            const formattedDate = getFormattedDate(day);
             addDate(day.date(), day.isSame(dayjs(), "day") ? "current-day active" : "active", formattedDate);
             renderTasks(formattedDate);
         }
@@ -108,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Render Day View
     function renderDayView(date) {
-        const formattedDate = date.format("YYYY-MM-DD");
+        const formattedDate = getFormattedDate(date);
 
         calendarGrid.innerHTML = "";
 
@@ -118,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         calendarGrid.appendChild(dayHeader);
 
         const dayContainer = document.createElement("div");
-        dayContainer.className = "date active";
+        dayContainer.className = `date ${date.isSame(dayjs(), "day") ? "current-day active" : "active"}`;
         dayContainer.dataset.date = formattedDate;
         dayContainer.innerHTML = `
             <div>${date.date()}</div>
@@ -130,18 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTasks(formattedDate);
     }
 
-    // Add Date to Calendar
-    function addDate(day, classes, formattedDate) {
-        const dateElement = document.createElement("div");
-        dateElement.className = `date ${classes}`;
-        dateElement.dataset.date = formattedDate;
-        dateElement.innerHTML = `
-            <div>${day}</div>
-            <div class="tasks" id="${formattedDate}-tasks"></div>
-            ${formattedDate ? `<button class="add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>` : ""}
-        `;
-        calendarGrid.appendChild(dateElement);
-    }
 
     // Render Tasks
     function renderTasks(date) {
@@ -182,6 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Delete Task
     window.deleteTask = (date, index) => {
+        if (!tasks[date] || !tasks[date][index]) {
+            console.warn(`Task not found at index ${index} for date "${date}".`);
+            return;
+        }
         tasks[date].splice(index, 1);
         if (tasks[date].length === 0) delete tasks[date];
         saveTasks();
@@ -189,7 +207,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Modal Functions
-    window.openModal = (date) => {
+    window.openModal = (date, event) => {
+        if (event) event.stopPropagation(); // Prevent click/touch events from propagating
         selectedDateInput.value = date;
         modal.style.display = "block";
     };
@@ -198,9 +217,154 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "none";
     };
 
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-    });
+// Dragging and Resizing the Modal
+modalHeader.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    dragOffset.x = e.clientX - modalContent.offsetLeft;
+    dragOffset.y = e.clientY - modalContent.offsetTop;
+    modalContent.style.transition = "none"; // Disable transitions during dragging
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+        modalContent.style.left = `${e.clientX - dragOffset.x}px`;
+        modalContent.style.top = `${e.clientY - dragOffset.y}px`;
+        modalContent.style.position = "absolute"; // Ensure the modal moves independently
+    }
+});
+
+document.addEventListener("mouseup", () => {
+    isDragging = false; // End dragging
+});
+
+// Resizing the Modal for Desktop
+resizeHandle.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    startSize.width = modalContent.offsetWidth;
+    startSize.height = modalContent.offsetHeight;
+    startPosition.x = e.clientX;
+    startPosition.y = e.clientY;
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (isResizing) {
+        const newWidth = startSize.width + (e.clientX - startPosition.x);
+        const newHeight = startSize.height + (e.clientY - startPosition.y);
+        modalContent.style.width = `${newWidth}px`;
+        modalContent.style.height = `${newHeight}px`;
+    }
+});
+
+document.addEventListener("mouseup", () => {
+    isResizing = false; // End resizing
+});
+
+// Dragging the Entire Modal (Desktop)
+modalContent.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    dragOffset.x = e.clientX - modalContent.offsetLeft;
+    dragOffset.y = e.clientY - modalContent.offsetTop;
+    modalContent.style.transition = "none"; // Disable transitions during dragging
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+        modalContent.style.left = `${e.clientX - dragOffset.x}px`;
+        modalContent.style.top = `${e.clientY - dragOffset.y}px`;
+        modalContent.style.position = "absolute"; // Ensure the modal moves independently
+    }
+});
+
+document.addEventListener("mouseup", () => {
+    isDragging = false; // End dragging
+});
+
+// Dragging the Entire Modal (Touch Devices)
+modalContent.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) { // Single touch
+        isDragging = true;
+        dragOffset.x = e.touches[0].clientX - modalContent.offsetLeft;
+        dragOffset.y = e.touches[0].clientY - modalContent.offsetTop;
+        modalContent.style.transition = "none"; // Disable transitions during dragging
+    }
+});
+
+modalContent.addEventListener("touchmove", (e) => {
+    if (isDragging && e.touches.length === 1) {
+        modalContent.style.left = `${e.touches[0].clientX - dragOffset.x}px`;
+        modalContent.style.top = `${e.touches[0].clientY - dragOffset.y}px`;
+        modalContent.style.position = "absolute";
+    }
+});
+
+modalContent.addEventListener("touchend", () => {
+    isDragging = false; // End dragging
+});
+
+// Resizing the Modal for Touch Devices
+resizeHandle.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) { // Multitouch
+        isResizing = true;
+        initialDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        startSize.width = modalContent.offsetWidth;
+        startSize.height = modalContent.offsetHeight;
+    }
+});
+
+resizeHandle.addEventListener("touchmove", (e) => {
+    if (isResizing && e.touches.length === 2) {
+        const currentDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        const scale = currentDistance / initialDistance;
+
+        modalContent.style.width = `${startSize.width * scale}px`;
+        modalContent.style.height = `${startSize.height * scale}px`;
+    }
+});
+
+resizeHandle.addEventListener("touchend", () => {
+    isResizing = false; // End resizing
+});
+
+// Pinch-to-resize fallback for multitouch interactions
+modal.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) { // Detect multitouch for resizing
+        initialDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+    }
+});
+
+modal.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2) { // Multitouch gesture
+        const currentDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        const scale = currentDistance / initialDistance;
+        modalContent.style.width = `${modalContent.offsetWidth * scale}px`;
+        modalContent.style.height = `${modalContent.offsetHeight * scale}px`;
+        initialDistance = currentDistance;
+    }
+});
+
+modal.addEventListener("touchend", () => {
+    isResizing = false; // End resizing
+});
+
+window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        closeModal();
+    } else if (modal.contains(e.target)) {
+        e.stopPropagation();
+    }
+});
 
     taskForm.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -236,6 +400,24 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isCurrentMonth) renderTasks(formattedDate);
         }
     }
+    
+calendarGrid.addEventListener("touchstart", (e) => {
+    const target = e.target.closest(".date"); // Ensure the target is a date cell
+    if (!target) return;
+
+    const currentTime = new Date().getTime();
+    const timeDiff = currentTime - lastTap;
+
+    if (timeDiff < 300 && timeDiff > 0) { // Detect double-tap (within 300ms)
+        const date = target.dataset.date;
+        if (date) {
+            openModal(date, e); // Pass the event to prevent propagation
+        }
+    }
+
+    lastTap = currentTime; // Update the last tap timestamp
+});
+
     // Add Date to Calendar
     function addDate(day, classes, formattedDate) {
         const dateElement = document.createElement("div");
@@ -249,27 +431,13 @@ document.addEventListener("DOMContentLoaded", () => {
         calendarGrid.appendChild(dateElement);
     }
     
-    prevMonthButton.addEventListener("click", () => {
-        if (currentView === "week") {
-            currentDate = currentDate.subtract(1, "week");
-        } else if (currentView === "day") {
-            currentDate = currentDate.subtract(1, "day");
-        } else {
-            currentDate = currentDate.subtract(1, "month");
+        function changeDate(direction) {
+            const unit = currentView === "week" ? "week" : currentView === "day" ? "day" : "month";
+            currentDate = direction === "prev" ? currentDate.subtract(1, unit) : currentDate.add(1, unit);
+            renderCalendar(currentDate);
         }
-        renderCalendar(currentDate);
-    });
-
-    nextMonthButton.addEventListener("click", () => {
-        if (currentView === "week") {
-            currentDate = currentDate.add(1, "week");
-        } else if (currentView === "day") {
-            currentDate = currentDate.add(1, "day");
-        } else {
-            currentDate = currentDate.add(1, "month");
-        }
-        renderCalendar(currentDate);
-    });
+        prevMonthButton.addEventListener("click", () => changeDate("prev"));
+        nextMonthButton.addEventListener("click", () => changeDate("next"));
 
     renderCalendar(currentDate);
 });
