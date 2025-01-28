@@ -26,9 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastTap = 0;
 
 
-    // Dark Mode Toggle
-   
-    
+    // Dark Mode Toggle  
     function toggleDarkMode() {
         document.body.classList.toggle("dark-mode");
         icon.classList.toggle("bi-brightness-high-fill", !document.body.classList.contains("dark-mode"));
@@ -97,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         monthYear.textContent = date.format("MMMM YYYY");
         focusOnToday();
 }
-// Function that brings you to today's date automatically on the screen
+    // Function that brings you to today's date automatically on the screen
     function focusOnToday() {
         const todayElement = document.querySelector(".date.current-day");
         if (todayElement) {
@@ -157,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dayContainer.innerHTML = `
             <div>${date.date()}</div>
             <div class="tasks" id="${formattedDate}-tasks"></div>
-            <button class="add-task-btn" onclick="openModal('${formattedDate}')">Add Task</button>
+            <button class="add-task-btn" onclick="openModal('${formattedDate}')">+ Task</button>
         `;
         calendarGrid.appendChild(dayContainer);
 
@@ -190,7 +188,9 @@ document.addEventListener("DOMContentLoaded", () => {
             taskItem.dataset.index = index;
             taskItem.innerHTML = `
                 <span class="task-text">${task.text}</span>
-                <button onclick="deleteTask('${date}', ${index})" class="delete-task">&times;</button>
+                <button onclick="deleteTask('${date}', ${index})" class="delete-task">
+                <i class="bi bi-x-circle-fill"></i>
+                </button>
             `;
             taskItem.querySelector(".task-text").addEventListener("click", () => toggleComplete(date, index));
             taskContainer.appendChild(taskItem);

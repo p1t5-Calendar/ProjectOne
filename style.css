@@ -12,9 +12,9 @@
     --lightboarder: rgb(204, 204, 204);
     --darkbg: #141414;
     --darktxt: rgb(238, 231, 222);
-    --darkinactive: #2c2929;
-    --darkactive: #344d55;
-    --darktask: rgb(34, 0, 34);
+    --darkinactive: #1a1a1a;
+    --darkactive: #cacaca;
+    --darktask: rgb(68, 0, 68);
 }
 
 /* Dark Mode Styling */
@@ -27,13 +27,13 @@
     border: solid 2.5px whitesmoke;
     background-color: var(--Lightbg);
     color: var(--lighttxt);
-    box-shadow: 2px 3px 8px rgb(218, 213, 213);
+    box-shadow: -2px 3px 8px rgb(218, 213, 213);
 }
 
 .dark-mode h1,
 .dark-mode h5 {
     color: var(--darktxt);
-    text-shadow: 2px 3px 8px rgb(218, 213, 213);
+    text-shadow: -2px 3px 8px rgb(218, 213, 213);
 }
 
 .dark-mode .calendar-grid,
@@ -41,17 +41,80 @@
 .dark-mode .date {
     background-color: var(--darkbg);
     color: var(--darktxt);
-    box-shadow: 4px 4px 10px rgb(218, 213, 213);
+    box-shadow: -4px 4px 10px rgb(218, 213, 213);
 }
 
+.dark-mode .date.current-day {
+    background-color: var(--darkactive);
+    color: black;
+    box-shadow: 2px 2px 10px black;
+}
+.dark-mode .date.current-day .add-task-btn{
+    background-color: black;
+    color: white;
+}
+.date.current-day .add-task-btn{
+    background-color: white;
+    color: black;
+}
 .dark-mode .day-name {
     background-color: #3d3d3d;
     color: rgb(255, 255, 255); 
 }
-.dark-mode .date.current-day {
-    border-color: white;
-    background-color: var(--darkactive);
-    color: white;
+/* Dark-mode tasks */
+.dark-mode .task-item{
+    border: 1px solid #3d3d3d;
+    color: #000;
+}
+.dark-mode .task-item.urgent {
+    background-color: rgb(255, 123, 0); 
+    box-shadow: -1px 1px 5px rgb(255, 102, 0);
+}
+.dark-mode .task-item.urgent:hover {
+    background-color: rgb(201, 159, 120); 
+}
+
+.dark-mode .task-item.non-urgent {
+    background-color: yellow;
+    box-shadow: -1px 1px 5px yellow;
+}
+.dark-mode .task-item.non-urgent:hover {
+    background-color:rgb(248, 252, 188) ;
+}
+.dark-mode .date.current-day.active .task-item.urgent {
+    background-color: rgb(253, 135, 80);
+    box-shadow: -1px 1px 5px rgb(253, 135, 80);
+    color: black;
+}
+.dark-mode .date.current-day.active  .task-item.urgent:hover {
+    background-color: rgb(255, 166, 125);
+    color: black;
+}
+.dark-mode .date.current-day.active .task-item.non-urgent {
+    background-color: rgb(128, 125, 0);
+    color: black;
+}
+.dark-mode .date.current-day.active  .task-item.non-urgent:hover {
+    background-color: rgb( 252, 241, 92);
+    color: black;
+    box-shadow: -1px 1px 5px rgb(252, 241, 92);
+}
+
+.dark-mode .task-item.completed {
+    background-color:#3b3b3b;
+    color: #aaaaaa;
+    box-shadow: -1px 1px 5px #aaaaaa;
+}
+.dark-mode .task-item.completed:hover {
+    background-color:#aaaaaa  ;
+    color:   #3b3b3b;
+}
+.dark-mode .delete-task {
+    color: #8d000e;
+}
+
+.dark-mode .delete-task:hover {
+    color: red; 
 }
 
 /* dark buttons */
@@ -59,7 +122,7 @@
     background-color: var(--darktask);
     color: var(--darktxt);
     border: #000;
-    box-shadow: 2px 3px 8px rgb(224, 130, 224);
+    box-shadow: -2px 3px 8px rgb(224, 130, 224);
 }
 .dark-mode .btn:hover {
     background-color: var(--Lightbg);
@@ -144,7 +207,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* color: yellow; */
+    color: rgb(248, 238, 150);
 }
 
 /* Container */
@@ -185,13 +248,12 @@ header {
     grid-template-rows: auto 1fr;
 }
 
-
 /*Date Styling */
-
 .date {
     position: relative; 
     background-color: var(--Lightbg);
     height: 150px;
+    min-width: 150px;
     border: 1px solid #dee2e6;
     display: flex;
     flex-direction: column;
@@ -202,9 +264,24 @@ header {
 
 .week-view .date {
     height: 400px;
+    .add-task-btn {
+        top: 5%; 
+        right: -9%; 
+        transform: translate(-50%, -50%); 
+        width: 40px; 
+        height: 30px; 
+    }   
 }
 .day-view .date {
     height: 400px;
+    .add-task-btn {
+        top: 5%; 
+        right: -1.6%; 
+        transform: translate(-50%, -50%); 
+        width: 40px; 
+        height: 30px; 
+        font-size: .8rem; 
+    }   
 }
 
 .date.active{
@@ -215,10 +292,10 @@ header {
     display: block;
     opacity: 0; 
     position: absolute; 
-    top: 10px; 
-    right: 10px; 
-    width: 50px; 
-    height: 50px; 
+    top: 18px; 
+    right: -8%; 
+    width: 40px; 
+    height: 30px; 
     background-color: #000; 
     color: #fff; 
     border: none;
@@ -240,8 +317,9 @@ header {
 /* Current Day Highlight */
 .date.current-day {
     border: 2px solid black;
-    background-color: rgb(117, 177, 176);
-    color: var(--lighttxt);
+    background-color: rgb(32, 32, 32);
+    color: white;
+    box-shadow: 2px 2px 10px black;
 }
 
 .date.inactive {
@@ -262,40 +340,46 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+    color: black;
 }
+::-webkit-scrollbar {
+    width: 5px;
+  }
 .tasks{
     white-space: nowrap;
     overflow-x: hidden; 
-    overflow-y: auto;   
     text-overflow: ellipsis;
-    max-height: 150px; 
+    overflow-y: auto;   
+    max-height: auto; 
     padding: 5px;  
 }
-.dark-mode .task-item.urgent {
-    background-color: rgb(255, 33, 33); 
-    color: rgb(243, 191, 191);
-}
 
-.dark-mode .task-item.non-urgent {
-    background-color: rgb(87, 87, 54);
-    color: yellow;
+.date.current-day.active .task-item.urgent {
+    background-color: rgb(255, 166, 125);
 }
-
-.dark-mode .task-item.completed {
-    background-color:#3b3b3b;
-    color: #aaaaaa;
-    text-decoration: line-through;
-    cursor: pointer;
+.date.current-day.active  .task-item.urgent:hover {
+    background-color: rgb(110, 40, 8);
+    color: white;
+}
+.date.current-day.active .task-item.non-urgent {
+    background-color: rgb(252, 241, 92);
+}
+.date.current-day.active  .task-item.non-urgent:hover {
+    background-color: rgb(59, 59, 8);
+    color: white;
 }
 .task-item.urgent {
-    background-color: rgb(243, 191, 191);
-    color: rgb(255, 33, 33);
+    background-color: rgb(255, 186, 83);
+}
+.task-item.urgent:hover {
+    background-color:  rgb(255, 123, 0);
 }
 
 .task-item.non-urgent {
-    background-color: yellow;
-    color: rgb(87, 87, 54);
+    background-color: rgb(255, 255, 171);
+}
+.task-item.non-urgent:hover {
+    background-color: rgb(177, 180, 2);
 }
 
 .task-item.completed {
@@ -304,6 +388,13 @@ header {
     text-decoration: line-through;
     cursor: pointer;
 }
+.task-item.completed:hover {
+    background-color:#3b3b3b;
+    color: #aaaaaa;
+    text-decoration: line-through;
+    cursor: pointer;
+}
+
 
 /* Modal */
 .custom-modal {
@@ -424,13 +515,13 @@ form button {
 .delete-task {
     background: none;
     border: none;
-    color: #dc3545; 
+    color: red; 
     font-size: 1.2rem;
     cursor: pointer;
 }
 
 .delete-task:hover {
-    color: red; 
+    color: #8d000e;         
 }
 
 /* Buttons */
