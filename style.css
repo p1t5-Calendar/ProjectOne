@@ -1,9 +1,5 @@
 /* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* Root Variables for Theme */
 :root {
@@ -149,19 +145,17 @@ header {
 
 /* Container */
 .container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
+    padding: 1rem;
+    max-width: 100%;
+    margin: 0 auto;
 }
-
 
 /* Calendar Grid */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1px;
+    gap: 2px;
     background-color: #dee2e6;
-    border: 1px solid #dee2e6;
     border-radius: 8px;
 }
 .cal-head{
@@ -189,22 +183,23 @@ header {
 /*Date Styling */
 
 .date {
-    position: relative; 
-    background-color: var(--Lightbg);
-    height: 150px;
-    border: 1px solid #dee2e6;
+    position: relative;
+    min-height: 150px; 
+    padding: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 5px;
-    cursor: pointer;
+    background-color: var(--Lightbg);
+    border: 1px solid #dee2e6;
 }
 
-.week-view .date {
-    height: 400px;
-}
+
+/* View-Specific Height Control */
+.week-view .date,
 .day-view .date {
-    height: 400px;
+    min-height: 200px;
+    height: auto;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .date.active{
@@ -255,10 +250,11 @@ header {
 /* Task Styles */
 .task-item {
     margin: 5px 0;
-    padding: 5px 10px;
+    padding: 8px 12px;
     border: 1px solid #dee2e6;
     border-radius: 5px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    min-height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -268,8 +264,9 @@ header {
     white-space: nowrap;
     overflow-x: hidden; 
     overflow-y: auto;   
+    -webkit-overflow-scrolling: touch;
     text-overflow: ellipsis;
-    max-height: 150px; 
+    max-height: calc(100% - 30px);
     padding: 5px;  
 }
 .dark-mode .task-item.urgent {
@@ -449,8 +446,10 @@ button:disabled {
     background-color: pink;
     color: var(--lighttxt);
     border: #ffffff;
-    height: 55px;
-    font-size: 1.2em;
+    font-size: 1rem !important;
+    padding: 0.5rem 1rem !important;
+    height: auto !important;
+    white-space: nowrap;
 }
 .btn:hover {
     background-color: var(--darkbg);
@@ -562,9 +561,7 @@ Responsive Design - Medium Devices
         left:200px;
         top: -20px;
     }
-
-    
-    
+     
 }
 
 @media (max-width: 768px) {
@@ -574,5 +571,32 @@ Responsive Design - Medium Devices
         width: 40px; 
         height: 40px; 
         font-size: 0.7rem; 
+    }    
+    .dark-mode .date .add-task-btn {
+        background-color: var(--darktxt);
+        color: var(--darkbg);
+    }
+    
+    .dark-mode .calendar-grid {
+        box-shadow: none; /* Reduce visual clutter */
+    }
+    }
+
+   /* Mobile Navigation Fixes */
+@media (max-width: 576px) {
+    #todayButton { 
+        display: none; 
+    }
+    
+    .hamburger-menu {
+        width: 100%;
+        position: relative;
+    }
+    
+    .dropdown-menu {
+        width: 100%;
+        right: 0 !important;
+        left: auto !important;
     }
 }
+
