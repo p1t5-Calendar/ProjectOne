@@ -1,5 +1,9 @@
 /* General Reset */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 /* Root Variables for Theme */
 :root {
@@ -251,16 +255,21 @@ header {
     flex-direction: column;
     background-color: var(--Lightbg);
     border: 1px solid #dee2e6;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 
 /* View-Specific Height Control */
 .week-view .date,
 .day-view .date {
-    min-height: 200px;
+    min-height: 300px;
     height: auto;
     max-height: 50vh;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .date.active{
@@ -271,8 +280,8 @@ header {
     display: block;
     opacity: 0; 
     position: absolute; 
-    top: 18px; 
-    right: -8%; 
+    top: 5px; 
+    right: 5px;
     width: 40px; 
     height: 30px; 
     background-color: #000; 
@@ -333,6 +342,7 @@ header {
     text-overflow: ellipsis;
     max-height: calc(100% - 30px);
     padding: 5px;  
+    word-wrap: break-word;
 }
 
 .date.current-day.active .task-item.urgent {
