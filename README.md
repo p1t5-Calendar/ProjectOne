@@ -27,7 +27,21 @@ Rogerick Gordon (@Rgordon333)
 Jacob McDonald (@JMcDonald99)
 
 ## External Resources
-Day.js
+W3Schools DOM Tutorial | W3 Schools
+Introduction to the Document Object Model (DOM) | MDN
+Document: querySelector() method | MDN
+EventTarget: addEventListener() method | MDN
+JS Function Basics | JS Info
+Variables | MDN
+localStorage property | MDN
+Manipulating DOM's (RENDER) | MDN
+createElement() method | MDN
+ForEach Loops | MDN
+Array.splice
+Web Forms | MDN
+day.js | npmjs
+Load Event | MDN
+
 
 
 ## License 

@@ -210,7 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     taskItem.dataset.index = index;
                     taskItem.innerHTML = `
                         <span class="task-text">${task.text}</span>
-                        <button onclick="deleteTask('${date}', ${index})" class="delete-task">&times;</button>
+                        <button onclick="deleteTask('${date}', ${index})" class="delete-task">
+                        <i class="bi bi-x-circle-fill"></i>
+                        </button>
                     `;
                     taskItem.querySelector(".task-text").addEventListener("click", () => toggleComplete(date, index));
                     taskContainer.appendChild(taskItem);
@@ -408,7 +410,7 @@ resizeHandle.addEventListener("touchend", () => {
 
 // Add event listener to the entire calendar grid
 calendarGrid.addEventListener("click", (event) => {
-    const targetCell = event.target.closest(".date"); // Get the tapped date cell
+    const targetCell = event.target.closest(".date");
     if (!targetCell) return;
 
     // Hide all other Add Task buttons
@@ -419,10 +421,9 @@ calendarGrid.addEventListener("click", (event) => {
     const addTaskButton = targetCell.querySelector(".add-task-btn");
     if (addTaskButton) {
         addTaskButton.style.opacity = "1";
-        addTaskButton.style.zIndex = "10"; // Ensure the button is on top
+        addTaskButton.style.zIndex = "10";
     }
 });
-
 
 
 // Pinch-to-resize fallback for multitouch interactions
