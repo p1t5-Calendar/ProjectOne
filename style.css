@@ -276,30 +276,34 @@ header {
     width: 100%;
 }
 
+
+.date {
+    position: relative; /* Ensures positioning inside the date cell */
+}
+
 .date .add-task-btn {
     display: block;
-    opacity: 0; 
-    position: absolute; 
-    top: 5px; 
-    right: 5px;
-    width: 40px; 
-    height: 30px; 
-    background-color: #000; 
-    color: #fff; 
+    opacity: 0; /* Keeps it hidden until hover */
+    position: absolute;
+    top: 5px;  /* Stays in the upper right corner */
+    right: 5px; /* Aligns to the right */
+    width: 40px;
+    height: 30px;
+    background-color: #000;
+    color: #fff;
     border: none;
-    border-radius: 50%; 
-    font-size: 0.8rem; 
-    z-index: 1; 
+    border-radius: 50%;
+    font-size: 0.8rem;
+    z-index: 1; /* Keeps button above other elements */
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* Show Add Task Button on Hover */
+/* 🔥 Hover fix: Ensures button only appears when the date is hovered */
 .date:hover .add-task-btn {
-    visibility: visible; 
     opacity: 1; 
-    transform: translate(-50%, -50%) scale(1.1); 
+    transform: scale(1.1); /* Keeps smooth scaling */
 }
 
 /* Current Day Highlight */
@@ -656,6 +660,8 @@ Responsive Design - Medium Devices
         width: 40px; 
         height: 40px; 
         font-size: 0.7rem; 
+        opacity: 1 !important;
+        pointer-events: all;
     }    
     .dark-mode .date .add-task-btn {
         background-color: var(--darktxt);
@@ -684,4 +690,13 @@ Responsive Design - Medium Devices
         left: auto !important;
     }
 }
-
+@media (hover: hover) {
+    .date .add-task-btn {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .date:hover .add-task-btn {
+        opacity: 1;
+    }
+}
