@@ -239,7 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     taskItem.dataset.index = index;
                     taskItem.innerHTML = `
                         <span class="task-text">${task.text}</span>
-                        <button onclick="deleteTask('${date}', ${index})" class="delete-task">&times;</button>
+                        <button onclick="deleteTask('${date}', ${index})" class="delete-task">
+                        <i class="bi bi-x-circle-fill"></i>
+                        </button>
                     `;
                     taskItem.querySelector(".task-text").addEventListener("click", () => toggleComplete(date, index));
                     taskContainer.appendChild(taskItem);
