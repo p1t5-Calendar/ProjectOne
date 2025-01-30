@@ -157,22 +157,30 @@ document.addEventListener("DOMContentLoaded", () => {
     
         // Create a wrapper div for the date number and button
         const dateWrapper = document.createElement("div");
-    
+        dateWrapper.style.display = "flex";
+        dateWrapper.style.justifyContent = "space-between";
+        dateWrapper.style.alignItems = "center";
+        dateWrapper.style.width = "100%";
+            
         // Add the date number
         const dateNumber = document.createElement("span");
         dateNumber.textContent = date.date();
+        dateNumber.style.fontSize = "1.2rem";
         dateWrapper.appendChild(dateNumber);
     
         // Create the "Add Task" button
         const addTaskButton = document.createElement("button");
         addTaskButton.className = "add-task-btn";
         addTaskButton.textContent = "+ Task";
+        addTaskButton.style.opacity = "1";  // Ensure it's always visible in Day View
+        addTaskButton.style.visibility = "visible"; 
     
         //  Properly attach event listener
         addTaskButton.addEventListener("click", (event) => {
             event.stopPropagation();
             openModal(formattedDate, event);
         });
+        
     
         // Append the button inside the wrapper
         dateWrapper.appendChild(addTaskButton);
@@ -438,14 +446,6 @@ resizeHandle.addEventListener("touchend", () => {
 });
 
 
-// Prevent date clicks from bubbling up
-document.querySelectorAll('.date').forEach(dateCell => {
-    dateCell.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('add-task-btn')) {
-            e.stopPropagation();
-        }
-    });
-});
 
 // // Add event listener to the entire calendar grid
 // calendarGrid.addEventListener("click", (event) => {
@@ -581,5 +581,15 @@ modalContent.addEventListener("click", (e) => {
         prevMonthButton.addEventListener("click", () => changeDate("prev"));
         nextMonthButton.addEventListener("click", () => changeDate("next"));
 
+        // Prevent date clicks from bubbling up
+        document.querySelectorAll('.date').forEach(dateCell => {
+        dateCell.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('add-task-btn')) {
+            e.stopPropagation();
+            }
+            });
+        });
+
     renderCalendar(currentDate);
+
 });
