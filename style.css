@@ -1,669 +1,673 @@
 /* General Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Root Variables for Theme */
 :root {
-    --Lightbg: rgb(175, 175, 175);
-    --lighttxt: #000;
-    --lightboarder: rgb(204, 204, 204);
-    --darkbg: #141414;
-    --darktxt: rgb(238, 231, 222);
-    --darkinactive: #1a1a1a;
-    --darkactive: #cacaca;
-    --darktask: rgb(68, 0, 68);
+  --Lightbg: rgb(175, 175, 175);
+  --lighttxt: #000;
+  --lightboarder: rgb(204, 204, 204);
+  --darkbg: #141414;
+  --darktxt: rgb(238, 231, 222);
+  --darkinactive: #1a1a1a;
+  --darkactive: #cacaca;
+  --darktask: rgb(68, 0, 68);
 }
 
 /* Dark Mode Styling */
 .dark-mode {
-    background-color: var(--darkbg);
-    color: var(--darktxt);
+  background-color: var(--darkbg);
+  color: var(--darktxt);
 }
 
 .dark-mode #darkb {
-    border: solid 2.5px whitesmoke;
-    background-color: var(--Lightbg);
-    color: var(--lighttxt);
-    box-shadow: -2px 3px 8px rgb(218, 213, 213);
+  border: solid 2.5px whitesmoke;
+  background-color: var(--Lightbg);
+  color: var(--lighttxt);
+  box-shadow: -2px 3px 8px rgb(218, 213, 213);
 }
 
 .dark-mode h1,
 .dark-mode h5 {
-    color: var(--darktxt);
-    text-shadow: -2px 3px 8px rgb(218, 213, 213);
+  color: var(--darktxt);
+  text-shadow: -2px 3px 8px rgb(218, 213, 213);
 }
 
 .dark-mode .calendar-grid,
 .dark-mode .custom-modal-content,
 .dark-mode .date {
-    background-color: var(--darkbg);
-    color: var(--darktxt);
-    box-shadow: -4px 4px 10px rgb(218, 213, 213);
+  background-color: var(--darkbg);
+  color: var(--darktxt);
+  box-shadow: -4px 4px 10px rgb(218, 213, 213);
 }
 
 .dark-mode .date.current-day {
-    background-color: var(--darkactive);
-    color: black;
-    box-shadow: 2px 2px 10px black;
+  background-color: var(--darkactive);
+  color: black;
+  box-shadow: 2px 2px 10px black;
 }
-.dark-mode .date.current-day .add-task-btn{
-    background-color: black;
-    color: white;
+.dark-mode .date.current-day .add-task-btn {
+  background-color: black;
+  color: white;
 }
-.date.current-day .add-task-btn{
-    background-color: white;
-    color: black;
+.date.current-day .add-task-btn {
+  background-color: white;
+  color: black;
 }
 .dark-mode .day-name {
-    background-color: #3d3d3d;
-    color: rgb(255, 255, 255); 
+  background-color: #3d3d3d;
+  color: rgb(255, 255, 255);
 }
 /* Dark-mode tasks */
-.dark-mode .task-item{
-    border: 1px solid #3d3d3d;
-    color: #000;
+.dark-mode .task-item {
+  border: 1px solid #3d3d3d;
+  color: #000;
 }
 .dark-mode .task-item.urgent {
-    background-color: rgb(255, 123, 0); 
-    box-shadow: -1px 1px 5px rgb(255, 102, 0);
+  background-color: rgb(255, 123, 0);
+  box-shadow: -1px 1px 5px rgb(255, 102, 0);
 }
 .dark-mode .task-item.urgent:hover {
-    background-color: rgb(201, 159, 120); 
+  background-color: rgb(201, 159, 120);
 }
 
 .dark-mode .task-item.non-urgent {
-    background-color: yellow;
-    box-shadow: -1px 1px 5px yellow;
+  background-color: yellow;
+  box-shadow: -1px 1px 5px yellow;
 }
 .dark-mode .task-item.non-urgent:hover {
-    background-color:rgb(248, 252, 188) ;
+  background-color: rgb(248, 252, 188);
 }
 .dark-mode .date.current-day.active .task-item.urgent {
-    background-color: rgb(253, 135, 80);
-    box-shadow: -1px 1px 5px rgb(253, 135, 80);
-    color: black;
+  background-color: rgb(253, 135, 80);
+  box-shadow: -1px 1px 5px rgb(253, 135, 80);
+  color: black;
 }
-.dark-mode .date.current-day.active  .task-item.urgent:hover {
-    background-color: rgb(255, 166, 125);
-    color: black;
+.dark-mode .date.current-day.active .task-item.urgent:hover {
+  background-color: rgb(255, 166, 125);
+  color: black;
 }
 .dark-mode .date.current-day.active .task-item.non-urgent {
-    background-color: rgb(128, 125, 0);
-    color: black;
+  background-color: rgb(128, 125, 0);
+  color: black;
 }
-.dark-mode .date.current-day.active  .task-item.non-urgent:hover {
-    background-color: rgb( 252, 241, 92);
-    color: black;
-    box-shadow: -1px 1px 5px rgb(252, 241, 92);
+.dark-mode .date.current-day.active .task-item.non-urgent:hover {
+  background-color: rgb(252, 241, 92);
+  color: black;
+  box-shadow: -1px 1px 5px rgb(252, 241, 92);
 }
 
 .dark-mode .task-item.completed {
-    background-color:#3b3b3b;
-    color: #aaaaaa;
-    box-shadow: -1px 1px 5px #aaaaaa;
+  background-color: #3b3b3b;
+  color: #aaaaaa;
+  box-shadow: -1px 1px 5px #aaaaaa;
 }
 .dark-mode .task-item.completed:hover {
-    background-color:#797979  ;
-    color:   #3b3b3b;
+  background-color: #797979;
+  color: #3b3b3b;
 }
 .dark-mode .delete-task {
-    color: #8d000e;
+  color: #8d000e;
 }
 
 .dark-mode .delete-task:hover {
-    color: red; 
+  color: red;
 }
 
 /* dark buttons */
 .dark-mode .btn {
-    background-color: var(--darktask);
-    color: var(--darktxt);
-    border: #000;
-    box-shadow: -2px 3px 8px rgb(224, 130, 224);
+  background-color: var(--darktask);
+  color: var(--darktxt);
+  border: #000;
+  box-shadow: -2px 3px 8px rgb(224, 130, 224);
 }
 .dark-mode .btn:hover {
-    background-color: var(--Lightbg);
-    color: var(--darktask);
+  background-color: var(--Lightbg);
+  color: var(--darktask);
 }
 .dark-mode .date .add-task-btn {
-    background-color: #ffffff; 
-    color: black;
+  background-color: #ffffff;
+  color: black;
 }
 
 /* Hamburger    */
-.dark-mode .dropdown-menu{
-background-color: var(--darktask);
+.dark-mode .dropdown-menu {
+  background-color: var(--darktask);
 }
-.dark-mode .dropdown-item{
-    color: white;
+.dark-mode .dropdown-item {
+  color: white;
 }
-.dark-mode .dropdown-item:hover{
-    background-color: black;
+.dark-mode .dropdown-item:hover {
+  background-color: black;
 }
 /* Body Styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--Lightbg);
-    color: var(--lighttxt);
-    transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
+  font-family: Arial, sans-serif;
+  background-color: var(--Lightbg);
+  color: var(--lighttxt);
+  transition: background-color 0.6s ease-in-out, color 0.6s ease-in-out;
 }
 
 /* Font Smoothing */
 body {
-    -webkit-font-smoothing: antialiased; /* For Chrome, Edge, Safari */
+  -webkit-font-smoothing: antialiased; /* For Chrome, Edge, Safari */
 }
 
 h1 {
-    font-size: 45px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
-    font-weight: bold;
+  font-size: 45px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-weight: bold;
 }
-.call{
-    padding-right: 15px;
+.call {
+  padding-right: 15px;
 }
 #monthYear {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-.add-task-btn{
-    font-family: Georgia, 'Times New Roman', Times, serif;
+.add-task-btn {
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 .date {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 /* Hamburger Button */
 #hamburgerButton {
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-weight: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: bold;
 }
-.dropdown-menu{
-background-color: pink;
-min-width: 0px;
+.dropdown-menu {
+  background-color: pink;
+  min-width: 0px;
 }
-.dropdown-item{
-    color: black;
+.dropdown-item {
+  color: black;
 }
-.dropdown-item:hover{
-    background-color: white;
+.dropdown-item:hover {
+  background-color: white;
 }
 /* Header Styling */
 header {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 #darkb {
-    border: solid 2.5px black;
-    background-color:  rgb(38, 51, 155);
-    box-shadow: 4px 6px 8px black;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgb(248, 238, 150);
+  border: solid 2.5px black;
+  background-color: rgb(38, 51, 155);
+  box-shadow: 4px 6px 8px black;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(248, 238, 150);
 }
 
 /* Container */
 .container {
-    padding: 1rem;
-    max-width: 100%;
-    margin: 0 auto;
+  padding: 1rem;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* Calendar Grid */
 .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    background-color: #dee2e6;
-    border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  background-color: #dee2e6;
+  border-radius: 8px;
 }
-.cal-head{
+.cal-head {
+  display: flex;
+  width: 35%;
+  justify-content: space-between;
+}
+.head-row{
     display: flex;
-    width: 35%;
     justify-content: space-between;
+    align-items: center;
+}
+ .calendar-head{
+    display: flex;
+    justify-content: space-evenly;
+    width: 65%;
 }
 .day-name {
-    background-color: rgb(219, 219, 219);
-    color: black; 
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    border: 1px solid #dee2e6;
-    transition: color 0.3s ease-in-out;
+  background-color: rgb(219, 219, 219);
+  color: black;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  border: 1px solid #dee2e6;
+  transition: color 0.3s ease-in-out;
 }
 
 .calendar-grid.day-view {
-    grid-template-columns: 1fr; 
-    grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
 }
 
 /*Date Styling */
 .date {
-    position: relative;
-    height: 150px; 
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--Lightbg);
-    border: 1px solid #dee2e6;
-    box-sizing: border-box;
-    overflow: hidden;
+  position: relative;
+  height: 150px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Lightbg);
+  border: 1px solid #dee2e6;
+  box-sizing: border-box;
+  overflow: hidden;
 }
-
 
 /* View-Specific Height Control */
-.week-view .date,
+.week-view .date {
+  height: 400px;
+}
 .day-view .date {
-    min-height: 300px;
-    height: auto;
-    max-height: 50vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: 400px;
+}
+.month-view .date {
+overflow-y: auto;
 }
 
-.date.active{
-    width: 100%;
+.date.active {
+  width: 100%;
 }
-
 .date .add-task-btn {
-    display: block; 
-    opacity: 0; 
-    position: absolute;
-    top: 13%; 
-    right: -9%; 
-    transform: translate(-50%, -50%); 
-    width: 40px; 
-    height: 30px; 
-    background-color: #000000; 
-    color: white;
-    border: none;
-    border-radius: 50%; 
-    font-size: 0.7rem; 
-    z-index: 1;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    will-change: opacity, transform;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 30px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  z-index: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
 }
-
 
 /* Show Add Task Button on Hover */
 .date:hover .add-task-btn {
-    opacity: 1 !important;
-    transform: translate(-50%, -50%) scale(1.1) !important;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1.1);
 }
 /* Current Day Highlight */
 .date.current-day {
-    border: 2px solid black;
-    background-color: rgb(32, 32, 32);
-    color: white;
-    box-shadow: 2px 2px 10px black;
+  border: 2px solid black;
+  background-color: rgb(32, 32, 32);
+  color: white;
+  box-shadow: 2px 2px 10px black;
 }
 
 .date.inactive {
-    background-color: #e9ecef; 
-    color: #6c757d; 
-    pointer-events: none; 
-    opacity: 0.5; 
+  background-color: #e9ecef;
+  color: #6c757d;
+  pointer-events: none;
+  opacity: 0.5;
 }
-
 
 /* Task Styles */
 .task-item {
-    margin: 5px 0;
-    padding: 8px 12px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    min-height: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: black;
-}
-::-webkit-scrollbar {
-    width: 5px;
-  }
-.tasks{
-    white-space: nowrap;
-    overflow-x: hidden; 
-    overflow-y: auto;   
-    -webkit-overflow-scrolling: touch;
-    text-overflow: ellipsis;
-    max-height: calc(100% - 30px);
-    padding: 5px;  
-    word-wrap: break-word;
-}
-.tasks:hover{ 
-    overflow-y: auto;
-    overflow-x: auto;
-    white-space: normal;
-    text-overflow: unset;
+  margin: 5px 0;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  min-height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
 }
 
+.task-text {
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  text-overflow: ellipsis;
+  max-height: calc(100% - 30px);
+  padding: 5px;
+}
+.task-text:hover {
+  cursor: pointer;
+  white-space: normal;
+  text-overflow: unset;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+.tasks:hover {
+  overflow-y: auto;
+}
 
 .date.current-day.active .task-item.urgent {
-    background-color: rgb(255, 166, 125);
+  background-color: rgb(255, 166, 125);
 }
-.date.current-day.active  .task-item.urgent:hover {
-    background-color: rgb(110, 40, 8);
-    color: white;
+.date.current-day.active .task-item.urgent:hover {
+  background-color: rgb(110, 40, 8);
+  color: white;
 }
 .date.current-day.active .task-item.non-urgent {
-    background-color: rgb(252, 241, 92);
+  background-color: rgb(252, 241, 92);
 }
-.date.current-day.active  .task-item.non-urgent:hover {
-    background-color: rgb(59, 59, 8);
-    color: white;
+.date.current-day.active .task-item.non-urgent:hover {
+  background-color: rgb(59, 59, 8);
+  color: white;
 }
 .task-item.urgent {
-    background-color: rgb(255, 186, 83);
+  background-color: rgb(255, 186, 83);
 }
 .task-item.urgent:hover {
-    background-color:  rgb(255, 123, 0);
+  background-color: rgb(255, 123, 0);
 }
 
 .task-item.non-urgent {
-    background-color: rgb(255, 255, 171);
+  background-color: rgb(255, 255, 171);
 }
 .task-item.non-urgent:hover {
-    background-color: rgb(177, 180, 2);
+  background-color: rgb(177, 180, 2);
 }
 
 .task-item.completed {
-    background-color: #797979;
-    color: #3b3b3b;
-    text-decoration: line-through;
-    cursor: pointer;
+  background-color: #797979;
+  color: #3b3b3b;
+  text-decoration: line-through;
+  cursor: pointer;
 }
 .task-item.completed:hover {
-    background-color:#3b3b3b;
-    color: #797979;
-    text-decoration: line-through;
-    cursor: pointer;
+  background-color: #3b3b3b;
+  color: #797979;
+  text-decoration: line-through;
+  cursor: pointer;
 }
-
 
 /* Modal */
 .custom-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background-color: rgba(37, 37, 37, 0.705);
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: rgba(37, 37, 37, 0.705);
 }
 
 /* Modal Content */
 .custom-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 200px;
-    min-height: 150px;
-    max-width: 90vw;
-    max-height: 90vh;
-    background-color: var(--Lightbg);
-    color: var(--lighttxt);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: auto;
-    resize: both;
-    pointer-events: all;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 200px;
+  min-height: 150px;
+  max-width: 90vw;
+  max-height: 90vh;
+  background-color: var(--Lightbg);
+  color: var(--lighttxt);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: auto;
+  resize: both;
+  pointer-events: all;
 }
 
 .custom-modal-content {
-    transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
+  transition: top 0.3s ease, left 0.3s ease, transform 0.3s ease;
 }
 
 .view-all-tasks {
-    background: none;
-    border: none;
-    color: grey;
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin-top: 5px;
+  background: none;
+  border: none;
+  color: grey;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 5px;
 }
 
 .view-all-tasks:hover {
-    color: darkgrey;
+  color: darkgrey;
 }
 /* Thinner Header Bar */
 .modal-header {
-    cursor: move;
-    padding: 2px 10px; 
-    background-color: #ccc;
-    border-bottom: 1px solid #aaa;
-    font-weight: normal;
-    display: flex;
-    justify-content: flex-end; 
+  cursor: move;
+  padding: 2px 10px;
+  background-color: #ccc;
+  border-bottom: 1px solid #aaa;
+  font-weight: normal;
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* Close Button */
 .modal-header .close-button {
-    font-size: 1.2rem;
-    cursor: pointer;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 /* Form Layout */
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 /* Labels and Input Fields */
 form .form-label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 form input,
 form button {
-    width: 100%;
-    box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Inline Radio Buttons */
 .radio-group {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Add Task Button */
 form button {
-    margin-top: auto; 
+  margin-top: auto;
 }
 
 /* Resize Handle */
 .resize-handle {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    bottom: 5px;
-    right: 5px;
-    cursor: se-resize;
-    background-color: #aaa;
-    border-radius: 50%;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  bottom: 5px;
+  right: 5px;
+  cursor: se-resize;
+  background-color: #aaa;
+  border-radius: 50%;
 }
 
-
 .close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5rem;
-    color: #6c757d;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
 }
 
 .delete-task {
-    background: none;
-    border: none;
-    color: red; 
-    font-size: 1.2rem;
-    cursor: pointer;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .delete-task:hover {
-    color: #8d000e;         
+  color: #8d000e;
 }
 
 /* Buttons */
 button {
-    cursor: pointer;
-    border: none;
-    outline: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
 }
 #todayButton,
-#hamburgerButton{
-  height:60px;
+#hamburgerButton {
+  height: 60px;
 }
 
 button:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .btn {
-    background-color: pink;
-    color: var(--lighttxt);
-    border: #ffffff;
-    font-size: 1rem;
-    padding: 0.5rem 1rem;
-    height: auto;
-    white-space: nowrap;
+  background-color: pink;
+  color: var(--lighttxt);
+  border: #ffffff;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  height: auto;
+  white-space: nowrap;
 }
 .btn:hover {
-    background-color: var(--darkbg);
-    color: var(--darktxt);
+  background-color: var(--darkbg);
+  color: var(--darktxt);
 }
 
-#todayButton{
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-weight: bold;
+#todayButton {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: bold;
 }
-
 
 /* Responsive Design - Small Devices*/
 @media (max-width: 450px) {
-    .calendar-grid {
-        grid-template-columns: repeat(1, 1fr);
-        
-    }
+  .calendar-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 
-    .day-name {
-        display: none; 
-    }
+  .day-name {
+    display: none;
+  }
+  .cal-head {
+    width: 100%;
+    padding-bottom: 5px;
+}
+.head-row{
+    display: inherit;  
+} 
+.calendar-head{
+    padding-bottom: 5px;
+    width: 100%;
+}
 
-    .dropdown-menu{
-        right: 15px;
-        min-width: 0px;
-    }
-    .dropdown-item{
-        font-size: 12px;
-        }
-    h1{
-        font-size: 30px;
-    }
-    
-    #todayButton{
-        display: none;
-    }
-    
-    .date {
-        min-height: 40px; 
-    }
+  .dropdown-menu {
+    min-width: 0px;
+  }
+  .dropdown-item {
+    font-size: 12px;
+  }
+  h1 {
+    font-size: 30px;
+  }
 
-    .date .add-task-btn {
-        width: 80%;
-        height: 25px;
-        font-size: 0.5rem;
-        position: relative;
-        left:200px;
-        top: -20px;
-    }
-     
+  .date {
+    min-height: 40px;
+  }
+
+  .date .add-task-btn {
+    width: 80%;
+    height: 25px;
+    font-size: 0.5rem;
+    position: relative;
+    left: 200px;
+    top: -20px;
+  }
 }
 
 @media (max-width: 768px) {
-    .date .add-task-btn {
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        width: 35px;
-        height: 35px;
-        top: 5px;
-        right: 5px;
-        background-color: rgba(0, 0, 0, 0.7);
-    }
-    
-    .dark-mode .date .add-task-btn {
-        background-color: var(--darktxt);
-        color: var(--darkbg);
-    }
-    /* Disable hover effects on mobile */
-   
-/* Restore hover effect */
-.date:hover .add-task-btn {
-    visibility: visible; 
-    opacity: 1; 
-    transform: scale(1.1);
-}
-    .dark-mode .date .add-task-btn {
-        background-color: var(--darktxt);
-        color: var(--darkbg);
-    }
-    
-    .dark-mode .calendar-grid {
-        box-shadow: none;
-    }
-    }
+  .date .add-task-btn {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    width: 35px;
+    height: 35px;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1 !important;
+    pointer-events: all;
+  }
 
-   /* Mobile Navigation Fixes */
+  .dark-mode .date .add-task-btn {
+    background-color: var(--darktxt);
+    color: var(--darkbg);
+  }
+  /* Disable hover effects on mobile */
+
+  /* Restore hover effect */
+  .date:hover .add-task-btn {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  .dark-mode .date .add-task-btn {
+    background-color: var(--darktxt);
+    color: var(--darkbg);
+  }
+
+  .dark-mode .calendar-grid {
+    box-shadow: none;
+  }
+}
+
+/* Mobile Navigation Fixes */
 @media (max-width: 576px) {
     #todayButton { 
         display: none; 
     }
-    
-    .hamburger-menu {
-        position: relative;
+
+  .hamburger-menu {
+    position: relative;
+  }
+
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+
+  @media (hover: hover) {
+    .date .add-task-btn {
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-    
-    .dropdown-menu {
-        right: 0; 
-        left: auto; 
-       }
 
-    /* @media (hover: hover) and (pointer: fine) {
-        .date .add-task-btn {
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .date:hover .add-task-btn {
-            visibility: visible;
-            opacity: 1;
-            transform: scale(1.1);
-        }
-    } */
-
-    
+    .date:hover .add-task-btn {
+      opacity: 1;
+    }
+  }
 }
-
